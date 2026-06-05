@@ -34,8 +34,11 @@ function Answer() {
   const [item, setItem] = useState<HistoryItem | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const initRef = useRef(false);
 
   useEffect(() => {
+    if (initRef.current) return;
+    initRef.current = true;
     if (id) {
       const existing = getHistoryItem(id);
       if (existing) {

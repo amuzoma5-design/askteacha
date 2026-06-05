@@ -121,7 +121,7 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "google/gemini-2.5-flash",
+            model: "google/gemini-2.5-flash-lite",
             messages: [
               { role: "system", content: system },
               { role: "user", content: userContent },

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, CheckCircle2, BookOpen, ListChecks, AlertTriangle, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getProfile } from "@/lib/profile";
 import {
   addHistory,
@@ -34,8 +34,11 @@ function Answer() {
   const [item, setItem] = useState<HistoryItem | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const initRef = useRef(false);
 
   useEffect(() => {
+    if (initRef.current) return;
+    initRef.current = true;
     if (id) {
       const existing = getHistoryItem(id);
       if (existing) {

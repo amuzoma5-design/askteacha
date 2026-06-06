@@ -84,13 +84,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "AskTeacha is a personal AI teacher for Nigerian SS1–SS3 students preparing for WAEC, NECO and JAMB.",
       },
-      { property: "og:title", content: "AskTeacha — AI Teacher for WAEC, NECO & JAMB" },
+      { property: "og:title", content: "AskTeacha — Your AI Teacher for WAEC, NECO & JAMB" },
       {
         property: "og:description",
         content: "Ask any question with text, voice or a photo and get a step-by-step lesson.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "AskTeacha — Your AI Teacher for WAEC, NECO & JAMB" },
+      { name: "description", content: "AskTeacha is an AI learning assistant for Nigerian students preparing for WAEC, NECO, and JAMB." },
+      { property: "og:description", content: "AskTeacha is an AI learning assistant for Nigerian students preparing for WAEC, NECO, and JAMB." },
+      { name: "twitter:description", content: "AskTeacha is an AI learning assistant for Nigerian students preparing for WAEC, NECO, and JAMB." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/2oOOIF9VvtfpyW63hWM0Rywjt9i1/social-images/social-1780774481081-1000546385.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/2oOOIF9VvtfpyW63hWM0Rywjt9i1/social-images/social-1780774481081-1000546385.webp" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },

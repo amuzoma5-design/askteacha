@@ -10,32 +10,43 @@ interface AskBody {
   };
 }
 
+const AI_MODELS = ["google/gemini-2.5-flash-lite", "openai/gpt-5-nano"] as const;
+const AI_TIMEOUT_MS = 30_000;
+
+function json(payload: unknown, status = 200) {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+function parseLesson(data: any) {
+  const args = data?.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments;
+  if (!args) return null;
+  if (typeof args === "object") return args;
+  return JSON.parse(args);
+}
+
 export const Route = createFileRoute("/api/ask")({
   server: {
     handlers: {
       POST: async ({ request }) => {
         const key = process.env.LOVABLE_API_KEY;
         if (!key) {
-          return new Response(JSON.stringify({ error: "LOVABLE_API_KEY not configured" }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" },
-          });
+          return json({ error: "AI is not configured yet. Please try again shortly." }, 500);
         }
 
         let body: AskBody;
         try {
           body = (await request.json()) as AskBody;
         } catch {
-          return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
+          return json({ error: "Invalid JSON" }, 400);
         }
 
         const question = (body.question ?? "").trim().slice(0, 4000);
         const imageDataUrl = body.imageDataUrl;
         if (!question && !imageDataUrl) {
-          return new Response(JSON.stringify({ error: "Provide a question or image" }), {
-            status: 400,
-            headers: { "Content-Type": "application/json" },
-          });
+          return json({ error: "Provide a question or image" }, 400);
         }
 
         const profile = body.profile ?? {};
@@ -114,56 +125,54 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
           },
         };
 
-        const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${key}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            model: "google/gemini-2.5-flash-lite",
-            messages: [
-              { role: "system", content: system },
-              { role: "user", content: userContent },
-            ],
-            tools: [tool],
-            tool_choice: { type: "function", function: { name: "deliver_lesson" } },
-          }),
-        });
+        let lastError = "Could not get an answer right now. Please try again.";
 
-        if (!upstream.ok) {
-          const text = await upstream.text();
-          let msg = "AI request failed";
-          if (upstream.status === 429) msg = "Too many requests. Please wait a moment.";
-          else if (upstream.status === 402)
-            msg = "AI credits exhausted. Please add credits in workspace settings.";
-          console.error("AI gateway error", upstream.status, text);
-          return new Response(JSON.stringify({ error: msg }), {
-            status: upstream.status,
-            headers: { "Content-Type": "application/json" },
-          });
+        for (const model of AI_MODELS) {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
+          try {
+            const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${key}`,
+                "Content-Type": "application/json",
+              },
+              signal: controller.signal,
+              body: JSON.stringify({
+                model,
+                messages: [
+                  { role: "system", content: system },
+                  { role: "user", content: userContent },
+                ],
+                tools: [tool],
+                tool_choice: { type: "function", function: { name: "deliver_lesson" } },
+              }),
+            });
+
+            if (!upstream.ok) {
+              const text = await upstream.text();
+              if (upstream.status === 429) return json({ error: "Too many requests. Please wait a moment." }, 429);
+              if (upstream.status === 402) return json({ error: "AI credits exhausted. Please add credits in workspace settings." }, 402);
+              lastError = upstream.status === 404 || upstream.status === 410 ? "AI model unavailable. Trying another route." : "AI request failed.";
+              console.error("AI gateway error", model, upstream.status, text);
+              continue;
+            }
+
+            const data: any = await upstream.json();
+            const parsed = parseLesson(data);
+            if (parsed) return json(parsed);
+
+            lastError = "No structured response from AI.";
+            console.error("AI gateway returned no structured lesson", model, data);
+          } catch (error) {
+            lastError = error instanceof Error && error.name === "AbortError" ? "AI request timed out." : "AI request failed.";
+            console.error("AI gateway call failed", model, error);
+          } finally {
+            clearTimeout(timeout);
+          }
         }
 
-        const data: any = await upstream.json();
-        const call = data?.choices?.[0]?.message?.tool_calls?.[0];
-        if (!call?.function?.arguments) {
-          return new Response(JSON.stringify({ error: "No structured response" }), {
-            status: 502,
-            headers: { "Content-Type": "application/json" },
-          });
-        }
-        let parsed: any;
-        try {
-          parsed = JSON.parse(call.function.arguments);
-        } catch {
-          return new Response(JSON.stringify({ error: "Bad AI response" }), {
-            status: 502,
-            headers: { "Content-Type": "application/json" },
-          });
-        }
-        return new Response(JSON.stringify(parsed), {
-          headers: { "Content-Type": "application/json" },
-        });
+        return json({ error: lastError }, 502);
       },
     },
   },

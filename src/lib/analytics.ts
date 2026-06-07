@@ -7,6 +7,8 @@ const QUEUE_KEY = "askteacha.analyticsQueue.v1";
 export interface AnalyticsEvent {
   timestamp: string;
   userId?: string;
+  name?: string;
+  classLevel?: string;
   question: string;
   subject: string;
   platform: string;
@@ -61,6 +63,8 @@ export async function logQuestion(event: Omit<AnalyticsEvent, "timestamp" | "pla
   const full: AnalyticsEvent = {
     timestamp: event.timestamp || new Date().toISOString(),
     userId: event.userId,
+    name: event.name,
+    classLevel: event.classLevel,
     question: event.question,
     subject: event.subject,
     platform: event.platform || "web",

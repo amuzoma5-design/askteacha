@@ -90,6 +90,8 @@ function Answer() {
       setItem(built);
       void logQuestion({
         userId: profile?.fullName || "",
+        name: profile?.fullName || "",
+        classLevel: profile?.classLevel || "",
         question: built.question,
         subject: built.subject,
       });

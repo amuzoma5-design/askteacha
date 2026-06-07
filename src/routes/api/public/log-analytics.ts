@@ -39,6 +39,8 @@ export const Route = createFileRoute("/api/public/log-analytics")({
 
         const timestamp = (body.timestamp || new Date().toISOString()).slice(0, 64);
         const userId = (body.userId || "").slice(0, 200);
+        const name = (body.name || "").slice(0, 200);
+        const classLevel = (body.classLevel || "").slice(0, 100);
         const question = (body.question || "").slice(0, 2000);
         const subject = (body.subject || "Unknown").slice(0, 100);
         const platform = (body.platform || "web").slice(0, 50);

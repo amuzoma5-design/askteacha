@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, CheckCircle2, BookOpen, ListChecks, AlertTriangle, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { getProfile } from "@/lib/profile";
+import { logQuestion } from "@/lib/analytics";
 import {
   addHistory,
   getHistoryItem,
@@ -9,6 +10,7 @@ import {
   type AnswerStructured,
   type HistoryItem,
 } from "@/lib/history";
+
 
 export const Route = createFileRoute("/answer")({
   validateSearch: (s: Record<string, unknown>) => ({
@@ -86,6 +88,12 @@ function Answer() {
       };
       addHistory(built);
       setItem(built);
+      void logQuestion({
+        userId: profile?.fullName || "",
+        question: built.question,
+        subject: built.subject,
+      });
+
     } catch (e: any) {
       setError(e.message || "Something went wrong.");
     } finally {

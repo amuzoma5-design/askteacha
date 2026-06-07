@@ -58,7 +58,7 @@ export const Route = createFileRoute("/api/public/log-analytics")({
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                values: [[timestamp, userId, question, subject, platform]],
+                values: [[timestamp, userId, name, classLevel, question, subject, platform]],
               }),
             },
           );

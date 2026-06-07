@@ -190,13 +190,10 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
             const data: any = await upstream.json();
             const parsed = parseLesson(data);
             if (parsed) {
-              void logToAnalytics({
-                question,
-                subject: parsed.subject ?? "Unknown",
-                userId: body.profile?.fullName ?? "",
-              });
               return json(parsed);
             }
+
+
 
 
             lastError = "No structured response from AI.";

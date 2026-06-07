@@ -15,6 +15,7 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as AnswerRouteImport } from './routes/answer'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiAskRouteImport } from './routes/api/ask'
+import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
 
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
@@ -46,6 +47,11 @@ const ApiAskRoute = ApiAskRouteImport.update({
   path: '/api/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicLogAnalyticsRoute = ApiPublicLogAnalyticsRouteImport.update({
+  id: '/api/public/log-analytics',
+  path: '/api/public/log-analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/api/ask': typeof ApiAskRoute
+  '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/api/ask': typeof ApiAskRoute
+  '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/api/ask': typeof ApiAskRoute
+  '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,8 +90,16 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/settings'
     | '/api/ask'
+    | '/api/public/log-analytics'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/answer' | '/home' | '/onboarding' | '/settings' | '/api/ask'
+  to:
+    | '/'
+    | '/answer'
+    | '/home'
+    | '/onboarding'
+    | '/settings'
+    | '/api/ask'
+    | '/api/public/log-analytics'
   id:
     | '__root__'
     | '/'
@@ -91,6 +108,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/settings'
     | '/api/ask'
+    | '/api/public/log-analytics'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -100,6 +118,7 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   SettingsRoute: typeof SettingsRoute
   ApiAskRoute: typeof ApiAskRoute
+  ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -146,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/log-analytics': {
+      id: '/api/public/log-analytics'
+      path: '/api/public/log-analytics'
+      fullPath: '/api/public/log-analytics'
+      preLoaderRoute: typeof ApiPublicLogAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -156,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   SettingsRoute: SettingsRoute,
   ApiAskRoute: ApiAskRoute,
+  ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

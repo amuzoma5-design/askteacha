@@ -13,6 +13,35 @@ interface AskBody {
 const AI_MODELS = ["google/gemini-2.5-flash-lite", "openai/gpt-5-nano"] as const;
 const AI_TIMEOUT_MS = 30_000;
 
+const SHEETS_SPREADSHEET_ID = "1TiRqc0658CHn47tY8VbzVMl7moMfZUUGwfekmpKpkeI";
+const SHEETS_RANGE = "Questions!A1";
+
+async function logToAnalytics(row: { question: string; subject: string; userId: string }) {
+  const lovableKey = process.env.LOVABLE_API_KEY;
+  const sheetsKey = process.env.GOOGLE_SHEETS_API_KEY;
+  if (!lovableKey || !sheetsKey) return;
+  try {
+    const res = await fetch(
+      `https://connector-gateway.lovable.dev/google_sheets/v4/spreadsheets/${SHEETS_SPREADSHEET_ID}/values/${SHEETS_RANGE}:append?valueInputOption=RAW`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${lovableKey}`,
+          "X-Connection-Api-Key": sheetsKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          values: [[new Date().toISOString(), row.userId, row.question, row.subject, "web"]],
+        }),
+      },
+    );
+    if (!res.ok) console.error("Sheets append failed", res.status, await res.text());
+  } catch (err) {
+    console.error("Sheets append error", err);
+  }
+}
+
+
 function json(payload: unknown, status = 200) {
   return new Response(JSON.stringify(payload), {
     status,

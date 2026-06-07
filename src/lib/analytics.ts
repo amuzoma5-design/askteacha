@@ -7,6 +7,8 @@ const QUEUE_KEY = "askteacha.analyticsQueue.v1";
 export interface AnalyticsEvent {
   timestamp: string;
   userId?: string;
+  name?: string;
+  classLevel?: string;
   question: string;
   subject: string;
   platform: string;

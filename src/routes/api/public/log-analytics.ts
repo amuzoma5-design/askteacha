@@ -6,6 +6,8 @@ const SHEETS_RANGE = "Questions!A1";
 interface LogBody {
   timestamp?: string;
   userId?: string;
+  name?: string;
+  classLevel?: string;
   question?: string;
   subject?: string;
   platform?: string;

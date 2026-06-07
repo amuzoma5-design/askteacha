@@ -89,7 +89,7 @@ function Answer() {
       addHistory(built);
       setItem(built);
       void logQuestion({
-        userId: profile?.fullName || "",
+        userId: profile?.userId || "",
         name: profile?.fullName || "",
         classLevel: profile?.classLevel || "",
         question: built.question,

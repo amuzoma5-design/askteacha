@@ -5,6 +5,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { ImageModal } from "@/components/ImageModal";
 import { VoiceSheet } from "@/components/VoiceSheet";
 import { getProfile } from "@/lib/profile";
+import { isSessionActive } from "@/lib/session";
 import { getHistory, type HistoryItem } from "@/lib/history";
 
 export const Route = createFileRoute("/home")({
@@ -38,6 +39,10 @@ function Home() {
     const p = getProfile();
     if (!p) {
       navigate({ to: "/onboarding", replace: true });
+      return;
+    }
+    if (!isSessionActive()) {
+      navigate({ to: "/welcome", replace: true });
       return;
     }
     setFirstName(p.fullName.split(" ")[0]);

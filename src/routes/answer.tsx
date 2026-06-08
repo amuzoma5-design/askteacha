@@ -64,7 +64,7 @@ function Answer() {
     setError(null);
     try {
       const profile = getProfile();
-      const res = await fetch("/api/ask", {
+      const res = await fetch("/api/public/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -56,7 +56,7 @@ function parseLesson(data: any) {
   return JSON.parse(args);
 }
 
-export const Route = createFileRoute("/api/ask")({
+export const Route = createFileRoute("/api/public/ask")({
   server: {
     handlers: {
       POST: async ({ request }) => {

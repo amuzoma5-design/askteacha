@@ -6,6 +6,7 @@ import {
   type ClassLevel,
   type ExamType,
 } from "@/lib/profile";
+import { startSession } from "@/lib/session";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
@@ -31,6 +32,7 @@ function Onboarding() {
     const name = fullName.trim();
     if (!name) return;
     saveProfile({ fullName: name.slice(0, 80), classLevel, examType });
+    startSession();
     navigate({ to: "/home" });
   };
 

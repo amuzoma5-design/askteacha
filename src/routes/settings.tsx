@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, LogOut, Trash2 } from "lucide-react";
+import { ArrowLeft, LogOut, RotateCcw, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { clearProfile, getProfile, type Profile } from "@/lib/profile";
 import { clearHistory, getHistory } from "@/lib/history";
+import { endSession } from "@/lib/session";
 
 export const Route = createFileRoute("/settings")({
   head: () => ({
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/settings")({
 function Settings() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [confirmReset, setConfirmReset] = useState(false);
   const [count, setCount] = useState(0);
   const [topSubject, setTopSubject] = useState("—");
 
@@ -72,6 +74,9 @@ function Settings() {
               <p className="text-xs text-muted-foreground">
                 {profile.classLevel} • {profile.examType}
               </p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                ID: {profile.userId}
+              </p>
             </div>
           </div>
         </section>
@@ -104,23 +109,72 @@ function Settings() {
             </span>
             <span className="text-xs text-muted-foreground">{count} items</span>
           </button>
+
           <button
             onClick={() => {
-              if (confirm("Log out and reset your profile?")) {
-                clearProfile();
-                clearHistory();
-                navigate({ to: "/onboarding", replace: true });
-              }
+              endSession();
+              navigate({ to: "/welcome", replace: true });
             }}
+            className="flex w-full items-center justify-between rounded-2xl bg-card p-4 text-sm font-medium ring-1 ring-border/60 hover:bg-muted"
+          >
+            <span className="flex items-center gap-2">
+              <LogOut className="h-4 w-4 text-primary" />
+              Log out
+            </span>
+            <span className="text-xs text-muted-foreground">
+              Keeps your profile
+            </span>
+          </button>
+
+          <button
+            onClick={() => setConfirmReset(true)}
             className="flex w-full items-center justify-between rounded-2xl bg-card p-4 text-sm font-medium text-destructive ring-1 ring-border/60 hover:bg-destructive/10"
           >
             <span className="flex items-center gap-2">
-              <LogOut className="h-4 w-4" />
-              Logout
+              <RotateCcw className="h-4 w-4" />
+              Reset profile
+            </span>
+            <span className="text-xs text-muted-foreground">
+              Deletes everything
             </span>
           </button>
         </section>
       </main>
+
+      {confirmReset && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="w-full max-w-sm rounded-2xl bg-card p-5 shadow-xl">
+            <h2 className="text-base font-semibold">Reset profile?</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Are you sure? This will permanently remove your profile and
+              learning history.
+            </p>
+            <div className="mt-5 flex flex-col gap-2">
+              <button
+                onClick={() => {
+                  clearProfile();
+                  clearHistory();
+                  endSession();
+                  navigate({ to: "/onboarding", replace: true });
+                }}
+                className="w-full rounded-xl bg-destructive px-4 py-3 text-sm font-semibold text-destructive-foreground transition hover:opacity-90"
+              >
+                Yes, reset everything
+              </button>
+              <button
+                onClick={() => setConfirmReset(false)}
+                className="w-full rounded-xl bg-secondary px-4 py-3 text-sm font-medium text-secondary-foreground transition hover:bg-muted"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

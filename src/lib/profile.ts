@@ -58,6 +58,7 @@ export function saveProfile(p: Omit<Profile, "userId"> & { userId?: string }) {
 }
 
 export function clearProfile() {
+  // Full reset: wipes the stored profile. Counter is preserved so a new
+  // profile created afterwards still receives a fresh, non-colliding ID.
   localStorage.removeItem(KEY);
-  // Keep COUNTER_KEY so re-onboarding yields a fresh, non-colliding ID.
 }

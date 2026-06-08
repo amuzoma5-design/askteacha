@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as HomeRouteImport } from './routes/home'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiAskRouteImport } from './routes/api/ask'
 import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
 
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
+  '/welcome': typeof WelcomeRoute
   '/api/ask': typeof ApiAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
+  '/welcome': typeof WelcomeRoute
   '/api/ask': typeof ApiAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
+  '/welcome': typeof WelcomeRoute
   '/api/ask': typeof ApiAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/onboarding'
     | '/settings'
+    | '/welcome'
     | '/api/ask'
     | '/api/public/log-analytics'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/onboarding'
     | '/settings'
+    | '/welcome'
     | '/api/ask'
     | '/api/public/log-analytics'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/onboarding'
     | '/settings'
+    | '/welcome'
     | '/api/ask'
     | '/api/public/log-analytics'
   fileRoutesById: FileRoutesById
@@ -117,12 +129,20 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRoute
   OnboardingRoute: typeof OnboardingRoute
   SettingsRoute: typeof SettingsRoute
+  WelcomeRoute: typeof WelcomeRoute
   ApiAskRoute: typeof ApiAskRoute
   ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -181,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRoute,
   OnboardingRoute: OnboardingRoute,
   SettingsRoute: SettingsRoute,
+  WelcomeRoute: WelcomeRoute,
   ApiAskRoute: ApiAskRoute,
   ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
 }

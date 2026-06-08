@@ -2,6 +2,8 @@
 // Events are first attempted immediately; on failure they sit in the queue
 // and are retried on next app load / next successful submission.
 
+import { apiUrl } from "./api-base";
+
 const QUEUE_KEY = "askteacha.analyticsQueue.v1";
 
 export interface AnalyticsEvent {
@@ -39,7 +41,7 @@ function writeQueue(events: AnalyticsEvent[]) {
 
 async function sendEvent(event: AnalyticsEvent): Promise<boolean> {
   try {
-    const res = await fetch("/api/public/log-analytics", {
+    const res = await fetch(apiUrl("/api/public/log-analytics"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(event),

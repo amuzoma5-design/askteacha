@@ -3,6 +3,7 @@ import { ArrowLeft, CheckCircle2, BookOpen, ListChecks, AlertTriangle, Loader2 }
 import { useEffect, useRef, useState } from "react";
 import { getProfile } from "@/lib/profile";
 import { logQuestion } from "@/lib/analytics";
+import { apiUrl } from "@/lib/api-base";
 import {
   addHistory,
   getHistoryItem,
@@ -64,7 +65,7 @@ function Answer() {
     setError(null);
     try {
       const profile = getProfile();
-      const res = await fetch("/api/public/ask", {
+      const res = await fetch(apiUrl("/api/public/ask"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

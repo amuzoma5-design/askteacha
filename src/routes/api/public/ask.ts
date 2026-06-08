@@ -42,10 +42,16 @@ async function logToAnalytics(row: { question: string; subject: string; userId: 
 }
 
 
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+} as const;
+
 function json(payload: unknown, status = 200) {
   return new Response(JSON.stringify(payload), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...CORS_HEADERS },
   });
 }
 
@@ -59,6 +65,7 @@ function parseLesson(data: any) {
 export const Route = createFileRoute("/api/public/ask")({
   server: {
     handlers: {
+      OPTIONS: async () => new Response(null, { status: 204, headers: CORS_HEADERS }),
       POST: async ({ request }) => {
         const key = process.env.LOVABLE_API_KEY;
         if (!key) {

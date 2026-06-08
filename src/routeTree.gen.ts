@@ -15,8 +15,8 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as AnswerRouteImport } from './routes/answer'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiAskRouteImport } from './routes/api/ask'
 import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
+import { Route as ApiPublicAskRouteImport } from './routes/api/public/ask'
 
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
@@ -48,14 +48,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiAskRoute = ApiAskRouteImport.update({
-  id: '/api/ask',
-  path: '/api/ask',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicLogAnalyticsRoute = ApiPublicLogAnalyticsRouteImport.update({
   id: '/api/public/log-analytics',
   path: '/api/public/log-analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAskRoute = ApiPublicAskRouteImport.update({
+  id: '/api/public/ask',
+  path: '/api/public/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -66,7 +66,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
-  '/api/ask': typeof ApiAskRoute
+  '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
 }
 export interface FileRoutesByTo {
@@ -76,7 +76,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
-  '/api/ask': typeof ApiAskRoute
+  '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
 }
 export interface FileRoutesById {
@@ -87,7 +87,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
-  '/api/ask': typeof ApiAskRoute
+  '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
 }
 export interface FileRouteTypes {
@@ -99,7 +99,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/settings'
     | '/welcome'
-    | '/api/ask'
+    | '/api/public/ask'
     | '/api/public/log-analytics'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -109,7 +109,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/settings'
     | '/welcome'
-    | '/api/ask'
+    | '/api/public/ask'
     | '/api/public/log-analytics'
   id:
     | '__root__'
@@ -119,7 +119,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/settings'
     | '/welcome'
-    | '/api/ask'
+    | '/api/public/ask'
     | '/api/public/log-analytics'
   fileRoutesById: FileRoutesById
 }
@@ -130,7 +130,7 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   SettingsRoute: typeof SettingsRoute
   WelcomeRoute: typeof WelcomeRoute
-  ApiAskRoute: typeof ApiAskRoute
+  ApiPublicAskRoute: typeof ApiPublicAskRoute
   ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
 }
 
@@ -178,18 +178,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/ask': {
-      id: '/api/ask'
-      path: '/api/ask'
-      fullPath: '/api/ask'
-      preLoaderRoute: typeof ApiAskRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/log-analytics': {
       id: '/api/public/log-analytics'
       path: '/api/public/log-analytics'
       fullPath: '/api/public/log-analytics'
       preLoaderRoute: typeof ApiPublicLogAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/ask': {
+      id: '/api/public/ask'
+      path: '/api/public/ask'
+      fullPath: '/api/public/ask'
+      preLoaderRoute: typeof ApiPublicAskRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -202,7 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   SettingsRoute: SettingsRoute,
   WelcomeRoute: WelcomeRoute,
-  ApiAskRoute: ApiAskRoute,
+  ApiPublicAskRoute: ApiPublicAskRoute,
   ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
 }
 export const routeTree = rootRouteImport

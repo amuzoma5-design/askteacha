@@ -136,7 +136,15 @@ function Home() {
         </section>
 
         <section className="mt-7">
-          <h2 className="mb-2 text-sm font-semibold">Recent questions</h2>
+          <div className="mb-2 flex items-center justify-between">
+            <h2 className="text-sm font-semibold">Recent questions</h2>
+            <Link
+              to="/history"
+              className="text-xs font-semibold text-primary hover:underline"
+            >
+              View all
+            </Link>
+          </div>
           {history.length === 0 ? (
             <p className="rounded-2xl border border-dashed border-border bg-card/50 p-4 text-center text-sm text-muted-foreground">
               Your asked questions will appear here.

@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
-import { Route as HomeRouteImport } from './routes/home'
 import { Route as HistoryRouteImport } from './routes/history'
+import { Route as HomeRouteImport } from './routes/home'
 import { Route as AnswerRouteImport } from './routes/answer'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicLogFeedbackRouteImport } from './routes/api/public/log-feedback'
@@ -35,14 +35,14 @@ const OnboardingRoute = OnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HomeRoute = HomeRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const HistoryRoute = HistoryRouteImport.update({
   id: '/history',
   path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnswerRoute = AnswerRouteImport.update({
@@ -74,8 +74,8 @@ const ApiPublicAskRoute = ApiPublicAskRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
-  '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
+  '/history': typeof HistoryRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
@@ -86,8 +86,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
-  '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
+  '/history': typeof HistoryRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
@@ -99,8 +99,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
-  '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
+  '/history': typeof HistoryRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
@@ -113,8 +113,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/answer'
-    | '/history'
     | '/home'
+    | '/history'
     | '/onboarding'
     | '/settings'
     | '/welcome'
@@ -125,8 +125,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/answer'
-    | '/history'
     | '/home'
+    | '/history'
     | '/onboarding'
     | '/settings'
     | '/welcome'
@@ -137,8 +137,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/answer'
-    | '/history'
     | '/home'
+    | '/history'
     | '/onboarding'
     | '/settings'
     | '/welcome'
@@ -150,8 +150,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnswerRoute: typeof AnswerRoute
-  HistoryRoute: typeof HistoryRoute
   HomeRoute: typeof HomeRoute
+  HistoryRoute: typeof HistoryRoute
   OnboardingRoute: typeof OnboardingRoute
   SettingsRoute: typeof SettingsRoute
   WelcomeRoute: typeof WelcomeRoute
@@ -183,18 +183,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/home': {
-      id: '/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof HomeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/history': {
       id: '/history'
       path: '/history'
       fullPath: '/history'
       preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/answer': {
@@ -238,8 +238,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnswerRoute: AnswerRoute,
-  HistoryRoute: HistoryRoute,
   HomeRoute: HomeRoute,
+  HistoryRoute: HistoryRoute,
   OnboardingRoute: OnboardingRoute,
   SettingsRoute: SettingsRoute,
   WelcomeRoute: WelcomeRoute,

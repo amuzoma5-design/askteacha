@@ -15,6 +15,7 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as AnswerRouteImport } from './routes/answer'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicLogFeedbackRouteImport } from './routes/api/public/log-feedback'
 import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
 import { Route as ApiPublicAskRouteImport } from './routes/api/public/ask'
 
@@ -48,6 +49,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicLogFeedbackRoute = ApiPublicLogFeedbackRouteImport.update({
+  id: '/api/public/log-feedback',
+  path: '/api/public/log-feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicLogAnalyticsRoute = ApiPublicLogAnalyticsRouteImport.update({
   id: '/api/public/log-analytics',
   path: '/api/public/log-analytics',
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/welcome': typeof WelcomeRoute
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
+  '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/welcome': typeof WelcomeRoute
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
+  '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/welcome': typeof WelcomeRoute
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
+  '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
     | '/welcome'
     | '/api/public/ask'
     | '/api/public/log-analytics'
+    | '/api/public/log-feedback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/welcome'
     | '/api/public/ask'
     | '/api/public/log-analytics'
+    | '/api/public/log-feedback'
   id:
     | '__root__'
     | '/'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/welcome'
     | '/api/public/ask'
     | '/api/public/log-analytics'
+    | '/api/public/log-feedback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +144,7 @@ export interface RootRouteChildren {
   WelcomeRoute: typeof WelcomeRoute
   ApiPublicAskRoute: typeof ApiPublicAskRoute
   ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
+  ApiPublicLogFeedbackRoute: typeof ApiPublicLogFeedbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/log-feedback': {
+      id: '/api/public/log-feedback'
+      path: '/api/public/log-feedback'
+      fullPath: '/api/public/log-feedback'
+      preLoaderRoute: typeof ApiPublicLogFeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/log-analytics': {
       id: '/api/public/log-analytics'
       path: '/api/public/log-analytics'
@@ -204,6 +224,7 @@ const rootRouteChildren: RootRouteChildren = {
   WelcomeRoute: WelcomeRoute,
   ApiPublicAskRoute: ApiPublicAskRoute,
   ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
+  ApiPublicLogFeedbackRoute: ApiPublicLogFeedbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

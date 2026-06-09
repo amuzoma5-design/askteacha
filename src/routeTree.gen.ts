@@ -13,8 +13,10 @@ import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as HomeRouteImport } from './routes/home'
+import { Route as HistoryRouteImport } from './routes/history'
 import { Route as AnswerRouteImport } from './routes/answer'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicLogFeedbackRouteImport } from './routes/api/public/log-feedback'
 import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
 import { Route as ApiPublicAskRouteImport } from './routes/api/public/ask'
 
@@ -38,6 +40,11 @@ const HomeRoute = HomeRouteImport.update({
   path: '/home',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnswerRoute = AnswerRouteImport.update({
   id: '/answer',
   path: '/answer',
@@ -46,6 +53,11 @@ const AnswerRoute = AnswerRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicLogFeedbackRoute = ApiPublicLogFeedbackRouteImport.update({
+  id: '/api/public/log-feedback',
+  path: '/api/public/log-feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicLogAnalyticsRoute = ApiPublicLogAnalyticsRouteImport.update({
@@ -62,76 +74,90 @@ const ApiPublicAskRoute = ApiPublicAskRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
+  '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
+  '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
+  '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/answer'
+    | '/history'
     | '/home'
     | '/onboarding'
     | '/settings'
     | '/welcome'
     | '/api/public/ask'
     | '/api/public/log-analytics'
+    | '/api/public/log-feedback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/answer'
+    | '/history'
     | '/home'
     | '/onboarding'
     | '/settings'
     | '/welcome'
     | '/api/public/ask'
     | '/api/public/log-analytics'
+    | '/api/public/log-feedback'
   id:
     | '__root__'
     | '/'
     | '/answer'
+    | '/history'
     | '/home'
     | '/onboarding'
     | '/settings'
     | '/welcome'
     | '/api/public/ask'
     | '/api/public/log-analytics'
+    | '/api/public/log-feedback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnswerRoute: typeof AnswerRoute
+  HistoryRoute: typeof HistoryRoute
   HomeRoute: typeof HomeRoute
   OnboardingRoute: typeof OnboardingRoute
   SettingsRoute: typeof SettingsRoute
   WelcomeRoute: typeof WelcomeRoute
   ApiPublicAskRoute: typeof ApiPublicAskRoute
   ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
+  ApiPublicLogFeedbackRoute: typeof ApiPublicLogFeedbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -164,6 +190,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/answer': {
       id: '/answer'
       path: '/answer'
@@ -176,6 +209,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/log-feedback': {
+      id: '/api/public/log-feedback'
+      path: '/api/public/log-feedback'
+      fullPath: '/api/public/log-feedback'
+      preLoaderRoute: typeof ApiPublicLogFeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/log-analytics': {
@@ -198,12 +238,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnswerRoute: AnswerRoute,
+  HistoryRoute: HistoryRoute,
   HomeRoute: HomeRoute,
   OnboardingRoute: OnboardingRoute,
   SettingsRoute: SettingsRoute,
   WelcomeRoute: WelcomeRoute,
   ApiPublicAskRoute: ApiPublicAskRoute,
   ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
+  ApiPublicLogFeedbackRoute: ApiPublicLogFeedbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -7,6 +7,8 @@ export interface AnswerStructured {
   subject: string;
 }
 
+export type Feedback = "helpful" | "not_helpful";
+
 export interface HistoryItem {
   id: string;
   question: string;
@@ -14,10 +16,11 @@ export interface HistoryItem {
   subject: string;
   createdAt: number;
   answer: AnswerStructured;
+  feedback?: Feedback;
 }
 
 const KEY = "askteacha.history";
-const MAX = 50;
+const MAX = 100;
 
 export function getHistory(): HistoryItem[] {
   if (typeof window === "undefined") return [];
@@ -35,6 +38,11 @@ export function getHistoryItem(id: string): HistoryItem | null {
 
 export function addHistory(item: HistoryItem) {
   const list = [item, ...getHistory().filter((h) => h.id !== item.id)].slice(0, MAX);
+  localStorage.setItem(KEY, JSON.stringify(list));
+}
+
+export function updateHistory(id: string, patch: Partial<HistoryItem>) {
+  const list = getHistory().map((h) => (h.id === id ? { ...h, ...patch } : h));
   localStorage.setItem(KEY, JSON.stringify(list));
 }
 

@@ -12,13 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as AnswerRouteImport } from './routes/answer'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ApiPublicLogFeedbackRouteImport } from './routes/api/public/log-feedback'
 import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
 import { Route as ApiPublicAskRouteImport } from './routes/api/public/ask'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
@@ -33,6 +37,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRoute = HomeRouteImport.update({
@@ -55,6 +64,18 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicLogFeedbackRoute = ApiPublicLogFeedbackRouteImport.update({
   id: '/api/public/log-feedback',
   path: '/api/public/log-feedback',
@@ -70,15 +91,25 @@ const ApiPublicAskRoute = ApiPublicAskRouteImport.update({
   path: '/api/public/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
+  '/mcp': typeof McpRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
@@ -88,9 +119,13 @@ export interface FileRoutesByTo {
   '/answer': typeof AnswerRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
+  '/mcp': typeof McpRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
@@ -101,9 +136,13 @@ export interface FileRoutesById {
   '/answer': typeof AnswerRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
+  '/mcp': typeof McpRoute
   '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
@@ -115,9 +154,13 @@ export interface FileRouteTypes {
     | '/answer'
     | '/history'
     | '/home'
+    | '/mcp'
     | '/onboarding'
     | '/settings'
     | '/welcome'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
@@ -127,9 +170,13 @@ export interface FileRouteTypes {
     | '/answer'
     | '/history'
     | '/home'
+    | '/mcp'
     | '/onboarding'
     | '/settings'
     | '/welcome'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
@@ -139,9 +186,13 @@ export interface FileRouteTypes {
     | '/answer'
     | '/history'
     | '/home'
+    | '/mcp'
     | '/onboarding'
     | '/settings'
     | '/welcome'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
@@ -152,9 +203,13 @@ export interface RootRouteChildren {
   AnswerRoute: typeof AnswerRoute
   HistoryRoute: typeof HistoryRoute
   HomeRoute: typeof HomeRoute
+  McpRoute: typeof McpRoute
   OnboardingRoute: typeof OnboardingRoute
   SettingsRoute: typeof SettingsRoute
   WelcomeRoute: typeof WelcomeRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicAskRoute: typeof ApiPublicAskRoute
   ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
   ApiPublicLogFeedbackRoute: typeof ApiPublicLogFeedbackRoute
@@ -181,6 +236,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home': {
@@ -211,6 +273,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/log-feedback': {
       id: '/api/public/log-feedback'
       path: '/api/public/log-feedback'
@@ -232,6 +308,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicAskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -240,9 +323,14 @@ const rootRouteChildren: RootRouteChildren = {
   AnswerRoute: AnswerRoute,
   HistoryRoute: HistoryRoute,
   HomeRoute: HomeRoute,
+  McpRoute: McpRoute,
   OnboardingRoute: OnboardingRoute,
   SettingsRoute: SettingsRoute,
   WelcomeRoute: WelcomeRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicAskRoute: ApiPublicAskRoute,
   ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
   ApiPublicLogFeedbackRoute: ApiPublicLogFeedbackRoute,
@@ -250,3 +338,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

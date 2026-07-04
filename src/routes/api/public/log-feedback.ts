@@ -58,25 +58,51 @@ export const Route = createFileRoute("/api/public/log-feedback")({
 
         if (!feedback) return json({ error: "Invalid feedback" }, 400);
 
-        try {
-          const res = await fetch(
+        const gatewayHeaders = {
+          Authorization: `Bearer ${lovableKey}`,
+          "X-Connection-Api-Key": sheetsKey,
+          "Content-Type": "application/json",
+        };
+        const values = [[timestamp, userId, name, classLevel, question, feedback]];
+
+        async function append() {
+          return fetch(
             `https://connector-gateway.lovable.dev/google_sheets/v4/spreadsheets/${SHEETS_SPREADSHEET_ID}/values/${SHEETS_RANGE}:append?valueInputOption=RAW`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${lovableKey}`,
-                "X-Connection-Api-Key": sheetsKey,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                values: [[timestamp, userId, name, classLevel, question, feedback]],
-              }),
-            },
+            { method: "POST", headers: gatewayHeaders, body: JSON.stringify({ values }) },
           );
+        }
+
+        try {
+          let res = await append();
           if (!res.ok) {
             const text = await res.text();
-            console.error("Sheets feedback append failed", res.status, text);
-            return json({ error: "Sheets append failed", status: res.status }, 502);
+            // Auto-create the "Feedback" tab if it doesn't exist, then retry.
+            if (res.status === 400 && text.includes("Unable to parse range")) {
+              const createRes = await fetch(
+                `https://connector-gateway.lovable.dev/google_sheets/v4/spreadsheets/${SHEETS_SPREADSHEET_ID}:batchUpdate`,
+                {
+                  method: "POST",
+                  headers: gatewayHeaders,
+                  body: JSON.stringify({
+                    requests: [{ addSheet: { properties: { title: "Feedback" } } }],
+                  }),
+                },
+              );
+              if (!createRes.ok) {
+                const ct = await createRes.text();
+                console.error("Sheets add tab failed", createRes.status, ct);
+                return json({ error: "Sheets add tab failed" }, 502);
+              }
+              res = await append();
+              if (!res.ok) {
+                const t2 = await res.text();
+                console.error("Sheets feedback append retry failed", res.status, t2);
+                return json({ error: "Sheets append failed" }, 502);
+              }
+            } else {
+              console.error("Sheets feedback append failed", res.status, text);
+              return json({ error: "Sheets append failed", status: res.status }, 502);
+            }
           }
           return json({ ok: true });
         } catch (err) {

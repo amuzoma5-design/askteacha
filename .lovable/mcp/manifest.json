@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "sdk_version": "0.20.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "askteacha-mcp",
+      "version": "0.1.0",
+      "title": "AskTeacha MCP"
+    },
+    "tools": [
+      {
+        "name": "ask_teacha",
+        "title": "Ask AskTeacha",
+        "description": "Ask AskTeacha a WAEC/JAMB-style secondary school question and receive a structured step-by-step answer including final answer, explanation, exam method steps, common mistakes, and practice questions.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000,
+              "description": "The student's question in plain English."
+            },
+            "classLevel": {
+              "description": "Optional student class level, e.g. 'SS2'.",
+              "type": "string"
+            },
+            "examType": {
+              "description": "Optional exam context, e.g. 'WAEC', 'JAMB', 'General'.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "question"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

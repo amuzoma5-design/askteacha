@@ -10,7 +10,8 @@ interface AskBody {
   };
 }
 
-const AI_MODELS = ["google/gemini-2.5-flash-lite", "openai/gpt-5-nano"] as const;
+const LOVABLE_MODELS = ["google/gemini-2.5-flash-lite", "openai/gpt-5-nano"] as const;
+const OPENAI_MODELS = ["gpt-4o-mini"] as const;
 const AI_TIMEOUT_MS = 30_000;
 
 const SHEETS_SPREADSHEET_ID = "1TiRqc0658CHn47tY8VbzVMl7moMfZUUGwfekmpKpkeI";
@@ -67,10 +68,17 @@ export const Route = createFileRoute("/api/public/ask")({
     handlers: {
       OPTIONS: async () => new Response(null, { status: 204, headers: CORS_HEADERS }),
       POST: async ({ request }) => {
-        const key = process.env.LOVABLE_API_KEY;
+        const openaiKey = process.env.OPENAI_API_KEY;
+        const lovableKey = process.env.LOVABLE_API_KEY;
+        const key = openaiKey || lovableKey;
         if (!key) {
           return json({ error: "AI is not configured yet. Please try again shortly." }, 500);
         }
+        const useOpenAI = !!openaiKey;
+        const endpoint = useOpenAI
+          ? "https://api.openai.com/v1/chat/completions"
+          : "https://ai.gateway.lovable.dev/v1/chat/completions";
+        const models = useOpenAI ? OPENAI_MODELS : LOVABLE_MODELS;
 
         let body: AskBody;
         try {
@@ -163,11 +171,11 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
 
         let lastError = "Could not get an answer right now. Please try again.";
 
-        for (const model of AI_MODELS) {
+        for (const model of models) {
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
           try {
-            const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+            const upstream = await fetch(endpoint, {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${key}`,

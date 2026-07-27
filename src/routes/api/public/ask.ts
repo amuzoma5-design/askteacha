@@ -12,6 +12,7 @@ interface AskBody {
 
 const LOVABLE_MODELS = ["google/gemini-2.5-flash-lite", "openai/gpt-5-nano"] as const;
 const OPENAI_MODELS = ["gpt-4o-mini"] as const;
+const GEMINI_MODELS = ["gemini-2.5-flash", "gemini-2.5-flash-lite"] as const;
 const AI_TIMEOUT_MS = 30_000;
 
 const SHEETS_SPREADSHEET_ID = "1TiRqc0658CHn47tY8VbzVMl7moMfZUUGwfekmpKpkeI";

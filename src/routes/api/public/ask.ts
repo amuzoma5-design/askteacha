@@ -171,11 +171,11 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
 
         let lastError = "Could not get an answer right now. Please try again.";
 
-        for (const model of AI_MODELS) {
+        for (const model of models) {
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
           try {
-            const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+            const upstream = await fetch(endpoint, {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${key}`,

@@ -69,17 +69,27 @@ export const Route = createFileRoute("/api/public/ask")({
     handlers: {
       OPTIONS: async () => new Response(null, { status: 204, headers: CORS_HEADERS }),
       POST: async ({ request }) => {
+        const geminiKey = process.env.GEMINI_API_KEY;
         const openaiKey = process.env.OPENAI_API_KEY;
         const lovableKey = process.env.LOVABLE_API_KEY;
-        const key = openaiKey || lovableKey;
+        const key = geminiKey || openaiKey || lovableKey;
         if (!key) {
           return json({ error: "AI is not configured yet. Please try again shortly." }, 500);
         }
-        const useOpenAI = !!openaiKey;
-        const endpoint = useOpenAI
-          ? "https://api.openai.com/v1/chat/completions"
-          : "https://ai.gateway.lovable.dev/v1/chat/completions";
-        const models = useOpenAI ? OPENAI_MODELS : LOVABLE_MODELS;
+        const provider: "gemini" | "openai" | "lovable" = geminiKey
+          ? "gemini"
+          : openaiKey
+            ? "openai"
+            : "lovable";
+        const endpoint =
+          provider === "gemini"
+            ? "https://generativelanguage.openai.azure.com/v1/chat/completions" // placeholder, overridden below
+            : provider === "openai"
+              ? "https://api.openai.com/v1/chat/completions"
+              : "https://ai.gateway.lovable.dev/v1/chat/completions";
+        const geminiEndpoint = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
+        const models =
+          provider === "gemini" ? GEMINI_MODELS : provider === "openai" ? OPENAI_MODELS : LOVABLE_MODELS;
 
         let body: AskBody;
         try {

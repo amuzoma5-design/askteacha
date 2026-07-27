@@ -186,7 +186,7 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
           try {
-            const upstream = await fetch(endpoint, {
+            const upstream = await fetch(provider === "gemini" ? geminiEndpoint : endpoint, {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${key}`,

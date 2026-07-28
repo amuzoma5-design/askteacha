@@ -212,8 +212,12 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
               const text = await upstream.text();
               if (upstream.status === 429) return json({ error: "Too many requests. Please wait a moment." }, 429);
               if (upstream.status === 402) return json({ error: "AI credits exhausted. Please add credits in workspace settings." }, 402);
-              lastError = upstream.status === 404 || upstream.status === 410 ? "AI model unavailable. Trying another route." : "AI request failed.";
-              console.error("AI gateway error", model, upstream.status, text);
+              const snippet = text.slice(0, 200);
+              lastError =
+                upstream.status === 404 || upstream.status === 410
+                  ? `Model ${model} unavailable (${upstream.status}).`
+                  : `AI request failed (${upstream.status}): ${snippet}`;
+              console.error("AI gateway error", provider, model, upstream.status, text);
               continue;
             }
 

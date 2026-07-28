@@ -11,8 +11,12 @@ interface AskBody {
 }
 
 const LOVABLE_MODELS = ["google/gemini-2.5-flash-lite", "openai/gpt-5-nano"] as const;
-const OPENAI_MODELS = ["gpt-4o-mini"] as const;
-const GEMINI_MODELS = ["gemini-2.5-flash", "gemini-2.5-flash-lite"] as const;
+const OPENAI_MODELS = ["gpt-4o-mini", "gpt-4o"] as const;
+const GEMINI_MODELS = [
+  "gemini-2.0-flash",
+  "gemini-1.5-flash-latest",
+  "gemini-1.5-flash",
+] as const;
 const AI_TIMEOUT_MS = 30_000;
 
 const SHEETS_SPREADSHEET_ID = "1TiRqc0658CHn47tY8VbzVMl7moMfZUUGwfekmpKpkeI";
@@ -208,8 +212,12 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
               const text = await upstream.text();
               if (upstream.status === 429) return json({ error: "Too many requests. Please wait a moment." }, 429);
               if (upstream.status === 402) return json({ error: "AI credits exhausted. Please add credits in workspace settings." }, 402);
-              lastError = upstream.status === 404 || upstream.status === 410 ? "AI model unavailable. Trying another route." : "AI request failed.";
-              console.error("AI gateway error", model, upstream.status, text);
+              const snippet = text.slice(0, 200);
+              lastError =
+                upstream.status === 404 || upstream.status === 410
+                  ? `Model ${model} unavailable (${upstream.status}).`
+                  : `AI request failed (${upstream.status}): ${snippet}`;
+              console.error("AI gateway error", provider, model, upstream.status, text);
               continue;
             }
 

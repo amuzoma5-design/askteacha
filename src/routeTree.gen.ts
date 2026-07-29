@@ -15,6 +15,7 @@ import { Route as HistoryRouteImport } from './routes/history'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as PastQuestionsRouteImport } from './routes/past-questions'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
@@ -23,6 +24,7 @@ import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[
 import { Route as ApiPublicAskRouteImport } from './routes/api/public/ask'
 import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
 import { Route as ApiPublicLogFeedbackRouteImport } from './routes/api/public/log-feedback'
+import { Route as ApiPublicPastQuestionsRouteImport } from './routes/api/public/past-questions'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +54,11 @@ const McpRoute = McpRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PastQuestionsRoute = PastQuestionsRouteImport.update({
+  id: '/past-questions',
+  path: '/past-questions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -97,6 +104,11 @@ const ApiPublicLogFeedbackRoute = ApiPublicLogFeedbackRouteImport.update({
   path: '/api/public/log-feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPastQuestionsRoute = ApiPublicPastQuestionsRouteImport.update({
+  id: '/api/public/past-questions',
+  path: '/api/public/past-questions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -105,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRoute
   '/mcp': typeof McpRoute
   '/onboarding': typeof OnboardingRoute
+  '/past-questions': typeof PastQuestionsRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -113,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
+  '/api/public/past-questions': typeof ApiPublicPastQuestionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -121,6 +135,7 @@ export interface FileRoutesByTo {
   '/home': typeof HomeRoute
   '/mcp': typeof McpRoute
   '/onboarding': typeof OnboardingRoute
+  '/past-questions': typeof PastQuestionsRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -129,6 +144,7 @@ export interface FileRoutesByTo {
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
+  '/api/public/past-questions': typeof ApiPublicPastQuestionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -138,6 +154,7 @@ export interface FileRoutesById {
   '/home': typeof HomeRoute
   '/mcp': typeof McpRoute
   '/onboarding': typeof OnboardingRoute
+  '/past-questions': typeof PastQuestionsRoute
   '/settings': typeof SettingsRoute
   '/welcome': typeof WelcomeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -146,6 +163,7 @@ export interface FileRoutesById {
   '/api/public/ask': typeof ApiPublicAskRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
+  '/api/public/past-questions': typeof ApiPublicPastQuestionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -156,6 +174,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/mcp'
     | '/onboarding'
+    | '/past-questions'
     | '/settings'
     | '/welcome'
     | '/.mcp/list-tools'
@@ -164,6 +183,7 @@ export interface FileRouteTypes {
     | '/api/public/ask'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
+    | '/api/public/past-questions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -172,6 +192,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/mcp'
     | '/onboarding'
+    | '/past-questions'
     | '/settings'
     | '/welcome'
     | '/.mcp/list-tools'
@@ -180,6 +201,7 @@ export interface FileRouteTypes {
     | '/api/public/ask'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
+    | '/api/public/past-questions'
   id:
     | '__root__'
     | '/'
@@ -188,6 +210,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/mcp'
     | '/onboarding'
+    | '/past-questions'
     | '/settings'
     | '/welcome'
     | '/.mcp/list-tools'
@@ -196,6 +219,7 @@ export interface FileRouteTypes {
     | '/api/public/ask'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
+    | '/api/public/past-questions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -205,6 +229,7 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRoute
   McpRoute: typeof McpRoute
   OnboardingRoute: typeof OnboardingRoute
+  PastQuestionsRoute: typeof PastQuestionsRoute
   SettingsRoute: typeof SettingsRoute
   WelcomeRoute: typeof WelcomeRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
@@ -213,6 +238,7 @@ export interface RootRouteChildren {
   ApiPublicAskRoute: typeof ApiPublicAskRoute
   ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
   ApiPublicLogFeedbackRoute: typeof ApiPublicLogFeedbackRoute
+  ApiPublicPastQuestionsRoute: typeof ApiPublicPastQuestionsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -257,6 +283,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/past-questions': {
+      id: '/past-questions'
+      path: '/past-questions'
+      fullPath: '/past-questions'
+      preLoaderRoute: typeof PastQuestionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -315,6 +348,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicLogFeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/past-questions': {
+      id: '/api/public/past-questions'
+      path: '/api/public/past-questions'
+      fullPath: '/api/public/past-questions'
+      preLoaderRoute: typeof ApiPublicPastQuestionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -325,6 +365,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRoute,
   McpRoute: McpRoute,
   OnboardingRoute: OnboardingRoute,
+  PastQuestionsRoute: PastQuestionsRoute,
   SettingsRoute: SettingsRoute,
   WelcomeRoute: WelcomeRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
@@ -334,6 +375,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicAskRoute: ApiPublicAskRoute,
   ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
   ApiPublicLogFeedbackRoute: ApiPublicLogFeedbackRoute,
+  ApiPublicPastQuestionsRoute: ApiPublicPastQuestionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

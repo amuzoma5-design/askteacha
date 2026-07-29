@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Camera, Keyboard, Mic, Send, Sparkles } from "lucide-react";
+import { BookMarked, Camera, ChevronRight, Keyboard, Mic, Send, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ImageModal } from "@/components/ImageModal";

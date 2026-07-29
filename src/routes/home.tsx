@@ -117,6 +117,22 @@ function Home() {
           </button>
         </form>
 
+        <Link
+          to="/past-questions"
+          className="mt-4 flex items-center gap-3 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 p-3 ring-1 ring-primary/20 transition hover:ring-primary/40"
+        >
+          <span className="rounded-xl bg-primary/15 p-2 text-primary">
+            <BookMarked className="h-5 w-5" />
+          </span>
+          <span className="flex-1">
+            <span className="block text-sm font-semibold text-foreground">Past Question Bank</span>
+            <span className="block text-xs text-muted-foreground">
+              WAEC · NECO · JAMB — practice with AI solutions
+            </span>
+          </span>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </Link>
+
         <section className="mt-7">
           <h2 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-foreground">
             <Sparkles className="h-4 w-4 text-accent" />

@@ -52,7 +52,7 @@ function Home() {
   const ask = (q: string, imageDataUrl?: string) => {
     const payload = { question: q, imageDataUrl };
     sessionStorage.setItem("askteacha.pending", JSON.stringify(payload));
-    navigate({ to: "/answer" });
+    navigate({ to: "/answer", search: {} });
   };
 
   const submitText = (e: React.FormEvent) => {

@@ -14,6 +14,7 @@ import { Route as AnswerRouteImport } from './routes/answer'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as NotebookRouteImport } from './routes/notebook'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PastQuestionsRouteImport } from './routes/past-questions'
 import { Route as SettingsRouteImport } from './routes/settings'
@@ -49,6 +50,11 @@ const HomeRoute = HomeRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotebookRoute = NotebookRouteImport.update({
+  id: '/notebook',
+  path: '/notebook',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/mcp': typeof McpRoute
+  '/notebook': typeof NotebookRoute
   '/onboarding': typeof OnboardingRoute
   '/past-questions': typeof PastQuestionsRoute
   '/settings': typeof SettingsRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/mcp': typeof McpRoute
+  '/notebook': typeof NotebookRoute
   '/onboarding': typeof OnboardingRoute
   '/past-questions': typeof PastQuestionsRoute
   '/settings': typeof SettingsRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/mcp': typeof McpRoute
+  '/notebook': typeof NotebookRoute
   '/onboarding': typeof OnboardingRoute
   '/past-questions': typeof PastQuestionsRoute
   '/settings': typeof SettingsRoute
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/home'
     | '/mcp'
+    | '/notebook'
     | '/onboarding'
     | '/past-questions'
     | '/settings'
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/home'
     | '/mcp'
+    | '/notebook'
     | '/onboarding'
     | '/past-questions'
     | '/settings'
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/home'
     | '/mcp'
+    | '/notebook'
     | '/onboarding'
     | '/past-questions'
     | '/settings'
@@ -228,6 +240,7 @@ export interface RootRouteChildren {
   HistoryRoute: typeof HistoryRoute
   HomeRoute: typeof HomeRoute
   McpRoute: typeof McpRoute
+  NotebookRoute: typeof NotebookRoute
   OnboardingRoute: typeof OnboardingRoute
   PastQuestionsRoute: typeof PastQuestionsRoute
   SettingsRoute: typeof SettingsRoute
@@ -276,6 +289,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notebook': {
+      id: '/notebook'
+      path: '/notebook'
+      fullPath: '/notebook'
+      preLoaderRoute: typeof NotebookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -364,6 +384,7 @@ const rootRouteChildren: RootRouteChildren = {
   HistoryRoute: HistoryRoute,
   HomeRoute: HomeRoute,
   McpRoute: McpRoute,
+  NotebookRoute: NotebookRoute,
   OnboardingRoute: OnboardingRoute,
   PastQuestionsRoute: PastQuestionsRoute,
   SettingsRoute: SettingsRoute,

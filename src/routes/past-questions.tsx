@@ -93,7 +93,7 @@ function PastQuestions() {
       "askteacha.pending",
       JSON.stringify({ question: q }),
     );
-    navigate({ to: "/answer" });
+    navigate({ to: "/answer", search: { id: undefined } });
   };
 
   return (

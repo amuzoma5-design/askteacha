@@ -8,7 +8,9 @@ import {
   Loader2,
   ThumbsUp,
   ThumbsDown,
+  NotebookPen,
 } from "lucide-react";
+import { addToNotebook, isInNotebook, removeFromNotebook } from "@/lib/notebook";
 import { useEffect, useRef, useState } from "react";
 import { getProfile } from "@/lib/profile";
 import { logQuestion } from "@/lib/analytics";
@@ -205,6 +207,8 @@ function Answer() {
               </div>
             </section>
 
+            <NotebookBar item={item} />
+
             <FeedbackBar
               item={item}
               onChange={(fb) => setItem({ ...item, feedback: fb })}
@@ -246,6 +250,61 @@ function ThinkingState() {
       </p>
       <Loader2 className="h-4 w-4 animate-spin text-primary" />
     </div>
+  );
+}
+
+function NotebookBar({ item }: { item: HistoryItem }) {
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    setSaved(isInNotebook(item.id));
+  }, [item.id]);
+
+  const toggle = () => {
+    if (saved) {
+      removeFromNotebook(item.id);
+      setSaved(false);
+      return;
+    }
+    addToNotebook({
+      id: item.id,
+      question: item.question,
+      subject: item.subject,
+      finalAnswer: item.answer.finalAnswer,
+      keyMistake: item.answer.commonMistakes[0] ?? "",
+      addedAt: Date.now(),
+    });
+    setSaved(true);
+  };
+
+  return (
+    <section className="rounded-2xl bg-card p-4 ring-1 ring-border/60">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        Error Notebook
+      </p>
+      <div className="flex items-center gap-2">
+        <button
+          onClick={toggle}
+          className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+            saved
+              ? "bg-warning/15 text-warning ring-1 ring-warning/40"
+              : "border border-border bg-background text-foreground hover:border-warning hover:text-warning"
+          }`}
+        >
+          <NotebookPen className="h-4 w-4" />
+          {saved ? "Saved to notebook" : "I got this wrong"}
+        </button>
+        <Link
+          to="/notebook"
+          className="rounded-xl bg-secondary px-3 py-2.5 text-xs font-semibold text-secondary-foreground hover:bg-muted"
+        >
+          Open
+        </Link>
+      </div>
+      <p className="mt-2 text-xs text-muted-foreground">
+        Saved mistakes are grouped by subject so you can revise before the exam.
+      </p>
+    </section>
   );
 }
 

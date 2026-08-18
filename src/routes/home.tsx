@@ -118,6 +118,22 @@ function Home() {
         </form>
 
         <Link
+          to="/notebook"
+          className="mt-4 flex items-center gap-3 rounded-2xl bg-card p-3 ring-1 ring-border/60 transition hover:ring-warning/40"
+        >
+          <span className="rounded-xl bg-warning/15 p-2 text-warning">
+            <NotebookPen className="h-5 w-5" />
+          </span>
+          <span className="flex-1">
+            <span className="block text-sm font-semibold text-foreground">Error Notebook</span>
+            <span className="block text-xs text-muted-foreground">
+              Revise the questions you got wrong
+            </span>
+          </span>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </Link>
+
+        <Link
           to="/past-questions"
           className="mt-4 flex items-center gap-3 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 p-3 ring-1 ring-primary/20 transition hover:ring-primary/40"
         >

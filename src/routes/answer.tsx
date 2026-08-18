@@ -8,7 +8,9 @@ import {
   Loader2,
   ThumbsUp,
   ThumbsDown,
+  NotebookPen,
 } from "lucide-react";
+import { addToNotebook, isInNotebook, removeFromNotebook } from "@/lib/notebook";
 import { useEffect, useRef, useState } from "react";
 import { getProfile } from "@/lib/profile";
 import { logQuestion } from "@/lib/analytics";

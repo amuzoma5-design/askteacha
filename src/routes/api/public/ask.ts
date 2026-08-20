@@ -176,6 +176,16 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
                     additionalProperties: false,
                   },
                 },
+                coachNote: {
+                  type: "string",
+                  description:
+                    "A short personal message to this student by first name, referencing their goal, exam timeline or past mistakes. 1-2 sentences.",
+                },
+                nextStep: {
+                  type: "string",
+                  description:
+                    "One concrete topic or skill this specific student should learn or revise next, and why it matters for their exam/career goal.",
+                },
               },
               required: [
                 "subject",
@@ -184,6 +194,8 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
                 "examMethod",
                 "commonMistakes",
                 "practice",
+                "coachNote",
+                "nextStep",
               ],
               additionalProperties: false,
             },

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { tutorSystemPrompt, type LearnerPayload } from "@/lib/tutor-prompt";
 
 interface AskBody {
   question?: string;
@@ -8,6 +9,7 @@ interface AskBody {
     classLevel?: string;
     examType?: string;
   };
+  learner?: LearnerPayload;
 }
 
 const LOVABLE_MODELS = ["google/gemini-2.5-flash-lite", "openai/gpt-5-nano"] as const;
@@ -109,10 +111,14 @@ export const Route = createFileRoute("/api/public/ask")({
         }
 
         const profile = body.profile ?? {};
-        const system = `You are AskTeacha — a calm, patient Nigerian secondary school teacher.
-Student profile: name=${profile.fullName ?? "Student"}, class=${profile.classLevel ?? "Unknown"}, exam=${profile.examType ?? "General"}.
-Teach in clear, simple English (a bit of friendly Nigerian classroom warmth is fine, never pidgin-only).
-Solve the student's question step-by-step using the WAEC/JAMB exam method. Never skip steps. Never be vague.
+        const learner: LearnerPayload = {
+          fullName: profile.fullName,
+          classLevel: profile.classLevel,
+          examType: profile.examType,
+          ...(body.learner ?? {}),
+        };
+        const system = `${tutorSystemPrompt(learner)}
+
 You MUST respond by calling the tool 'deliver_lesson' with the structured fields. Do not write any text outside the tool call.`;
 
         const userContent: any[] = [];
@@ -170,6 +176,16 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
                     additionalProperties: false,
                   },
                 },
+                coachNote: {
+                  type: "string",
+                  description:
+                    "A short personal message to this student by first name, referencing their goal, exam timeline or past mistakes. 1-2 sentences.",
+                },
+                nextStep: {
+                  type: "string",
+                  description:
+                    "One concrete topic or skill this specific student should learn or revise next, and why it matters for their exam/career goal.",
+                },
               },
               required: [
                 "subject",
@@ -178,6 +194,8 @@ You MUST respond by calling the tool 'deliver_lesson' with the structured fields
                 "examMethod",
                 "commonMistakes",
                 "practice",
+                "coachNote",
+                "nextStep",
               ],
               additionalProperties: false,
             },

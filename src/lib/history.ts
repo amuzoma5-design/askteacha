@@ -5,6 +5,10 @@ export interface AnswerStructured {
   commonMistakes: string[];
   practice: { question: string; answer: string }[];
   subject: string;
+  /** Personal note from the tutor to this student. */
+  coachNote?: string;
+  /** What this student should learn/revise next. */
+  nextStep?: string;
 }
 
 export type Feedback = "helpful" | "not_helpful";

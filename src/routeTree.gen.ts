@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnswerRouteImport } from './routes/answer'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as HomeRouteImport } from './routes/home'
+import { Route as LearningProfileRouteImport } from './routes/learning-profile'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as NotebookRouteImport } from './routes/notebook'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
@@ -23,6 +24,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as ApiPublicAskRouteImport } from './routes/api/public/ask'
+import { Route as ApiPublicGuideRouteImport } from './routes/api/public/guide'
 import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
 import { Route as ApiPublicLogFeedbackRouteImport } from './routes/api/public/log-feedback'
 import { Route as ApiPublicPastQuestionsRouteImport } from './routes/api/public/past-questions'
@@ -45,6 +47,11 @@ const HistoryRoute = HistoryRouteImport.update({
 const HomeRoute = HomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearningProfileRoute = LearningProfileRouteImport.update({
+  id: '/learning-profile',
+  path: '/learning-profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -100,6 +107,11 @@ const ApiPublicAskRoute = ApiPublicAskRouteImport.update({
   path: '/api/public/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicGuideRoute = ApiPublicGuideRouteImport.update({
+  id: '/api/public/guide',
+  path: '/api/public/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicLogAnalyticsRoute = ApiPublicLogAnalyticsRouteImport.update({
   id: '/api/public/log-analytics',
   path: '/api/public/log-analytics',
@@ -121,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/answer': typeof AnswerRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
+  '/learning-profile': typeof LearningProfileRoute
   '/mcp': typeof McpRoute
   '/notebook': typeof NotebookRoute
   '/onboarding': typeof OnboardingRoute
@@ -131,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
+  '/api/public/guide': typeof ApiPublicGuideRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
   '/api/public/past-questions': typeof ApiPublicPastQuestionsRoute
@@ -140,6 +154,7 @@ export interface FileRoutesByTo {
   '/answer': typeof AnswerRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
+  '/learning-profile': typeof LearningProfileRoute
   '/mcp': typeof McpRoute
   '/notebook': typeof NotebookRoute
   '/onboarding': typeof OnboardingRoute
@@ -150,6 +165,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
+  '/api/public/guide': typeof ApiPublicGuideRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
   '/api/public/past-questions': typeof ApiPublicPastQuestionsRoute
@@ -160,6 +176,7 @@ export interface FileRoutesById {
   '/answer': typeof AnswerRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
+  '/learning-profile': typeof LearningProfileRoute
   '/mcp': typeof McpRoute
   '/notebook': typeof NotebookRoute
   '/onboarding': typeof OnboardingRoute
@@ -170,6 +187,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
+  '/api/public/guide': typeof ApiPublicGuideRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
   '/api/public/past-questions': typeof ApiPublicPastQuestionsRoute
@@ -181,6 +199,7 @@ export interface FileRouteTypes {
     | '/answer'
     | '/history'
     | '/home'
+    | '/learning-profile'
     | '/mcp'
     | '/notebook'
     | '/onboarding'
@@ -191,6 +210,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
+    | '/api/public/guide'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
     | '/api/public/past-questions'
@@ -200,6 +220,7 @@ export interface FileRouteTypes {
     | '/answer'
     | '/history'
     | '/home'
+    | '/learning-profile'
     | '/mcp'
     | '/notebook'
     | '/onboarding'
@@ -210,6 +231,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
+    | '/api/public/guide'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
     | '/api/public/past-questions'
@@ -219,6 +241,7 @@ export interface FileRouteTypes {
     | '/answer'
     | '/history'
     | '/home'
+    | '/learning-profile'
     | '/mcp'
     | '/notebook'
     | '/onboarding'
@@ -229,6 +252,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
+    | '/api/public/guide'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
     | '/api/public/past-questions'
@@ -239,6 +263,7 @@ export interface RootRouteChildren {
   AnswerRoute: typeof AnswerRoute
   HistoryRoute: typeof HistoryRoute
   HomeRoute: typeof HomeRoute
+  LearningProfileRoute: typeof LearningProfileRoute
   McpRoute: typeof McpRoute
   NotebookRoute: typeof NotebookRoute
   OnboardingRoute: typeof OnboardingRoute
@@ -249,6 +274,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicAskRoute: typeof ApiPublicAskRoute
+  ApiPublicGuideRoute: typeof ApiPublicGuideRoute
   ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
   ApiPublicLogFeedbackRoute: typeof ApiPublicLogFeedbackRoute
   ApiPublicPastQuestionsRoute: typeof ApiPublicPastQuestionsRoute
@@ -282,6 +308,13 @@ declare module '@tanstack/react-router' {
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learning-profile': {
+      id: '/learning-profile'
+      path: '/learning-profile'
+      fullPath: '/learning-profile'
+      preLoaderRoute: typeof LearningProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -354,6 +387,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicAskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/guide': {
+      id: '/api/public/guide'
+      path: '/api/public/guide'
+      fullPath: '/api/public/guide'
+      preLoaderRoute: typeof ApiPublicGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/log-analytics': {
       id: '/api/public/log-analytics'
       path: '/api/public/log-analytics'
@@ -383,6 +423,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnswerRoute: AnswerRoute,
   HistoryRoute: HistoryRoute,
   HomeRoute: HomeRoute,
+  LearningProfileRoute: LearningProfileRoute,
   McpRoute: McpRoute,
   NotebookRoute: NotebookRoute,
   OnboardingRoute: OnboardingRoute,
@@ -394,6 +435,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicAskRoute: ApiPublicAskRoute,
+  ApiPublicGuideRoute: ApiPublicGuideRoute,
   ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
   ApiPublicLogFeedbackRoute: ApiPublicLogFeedbackRoute,
   ApiPublicPastQuestionsRoute: ApiPublicPastQuestionsRoute,

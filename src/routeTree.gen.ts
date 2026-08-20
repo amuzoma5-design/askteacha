@@ -23,6 +23,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as ApiPublicAskRouteImport } from './routes/api/public/ask'
+import { Route as ApiPublicGuideRouteImport } from './routes/api/public/guide'
 import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
 import { Route as ApiPublicLogFeedbackRouteImport } from './routes/api/public/log-feedback'
 import { Route as ApiPublicPastQuestionsRouteImport } from './routes/api/public/past-questions'
@@ -100,6 +101,11 @@ const ApiPublicAskRoute = ApiPublicAskRouteImport.update({
   path: '/api/public/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicGuideRoute = ApiPublicGuideRouteImport.update({
+  id: '/api/public/guide',
+  path: '/api/public/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicLogAnalyticsRoute = ApiPublicLogAnalyticsRouteImport.update({
   id: '/api/public/log-analytics',
   path: '/api/public/log-analytics',
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
+  '/api/public/guide': typeof ApiPublicGuideRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
   '/api/public/past-questions': typeof ApiPublicPastQuestionsRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
+  '/api/public/guide': typeof ApiPublicGuideRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
   '/api/public/past-questions': typeof ApiPublicPastQuestionsRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
+  '/api/public/guide': typeof ApiPublicGuideRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
   '/api/public/past-questions': typeof ApiPublicPastQuestionsRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
+    | '/api/public/guide'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
     | '/api/public/past-questions'
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
+    | '/api/public/guide'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
     | '/api/public/past-questions'
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
+    | '/api/public/guide'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
     | '/api/public/past-questions'
@@ -249,6 +261,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicAskRoute: typeof ApiPublicAskRoute
+  ApiPublicGuideRoute: typeof ApiPublicGuideRoute
   ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
   ApiPublicLogFeedbackRoute: typeof ApiPublicLogFeedbackRoute
   ApiPublicPastQuestionsRoute: typeof ApiPublicPastQuestionsRoute
@@ -354,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicAskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/guide': {
+      id: '/api/public/guide'
+      path: '/api/public/guide'
+      fullPath: '/api/public/guide'
+      preLoaderRoute: typeof ApiPublicGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/log-analytics': {
       id: '/api/public/log-analytics'
       path: '/api/public/log-analytics'
@@ -394,6 +414,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicAskRoute: ApiPublicAskRoute,
+  ApiPublicGuideRoute: ApiPublicGuideRoute,
   ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
   ApiPublicLogFeedbackRoute: ApiPublicLogFeedbackRoute,
   ApiPublicPastQuestionsRoute: ApiPublicPastQuestionsRoute,

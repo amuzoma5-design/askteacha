@@ -92,7 +92,35 @@ function Home() {
           <h1 className="mt-1 text-2xl font-bold leading-tight">
             What do you want to learn today?
           </h1>
+          {typeof days === "number" && days >= 0 && (
+            <p className="mt-1 text-xs font-medium text-primary">
+              {days === 0
+                ? "Your exam is today — you've got this!"
+                : `${days} day${days === 1 ? "" : "s"} to your ${profile?.examType} exam`}
+            </p>
+          )}
         </div>
+
+        {completion < 100 && (
+          <Link
+            to="/learning-profile"
+            className="mb-4 flex items-center gap-3 rounded-2xl bg-accent/10 p-3 ring-1 ring-accent/30"
+          >
+            <span className="rounded-xl bg-accent/20 p-2 text-accent">
+              <UserCog className="h-5 w-5" />
+            </span>
+            <span className="flex-1">
+              <span className="block text-sm font-semibold text-foreground">
+                Make Teacha your personal tutor
+              </span>
+              <span className="block text-xs text-muted-foreground">
+                Profile {completion}% complete — add your subjects, weak areas and goal
+              </span>
+            </span>
+            <ChevronRight className="h-4 w-4 text-muted-foreground" />
+          </Link>
+        )}
+
 
         <form
           onSubmit={submitText}

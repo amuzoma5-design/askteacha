@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, LogOut, RotateCcw, Trash2 } from "lucide-react";
+import { ArrowLeft, LogOut, RotateCcw, Trash2, UserCog } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { clearProfile, getProfile, type Profile } from "@/lib/profile";
+import { clearProfile, getProfile, profileCompletion, type Profile } from "@/lib/profile";
 import { clearHistory, getHistory } from "@/lib/history";
 import { endSession } from "@/lib/session";
 
@@ -94,6 +94,19 @@ function Settings() {
         </section>
 
         <section className="mt-6 flex flex-col gap-2">
+          <Link
+            to="/learning-profile"
+            className="flex w-full items-center justify-between rounded-2xl bg-card p-4 text-sm font-medium ring-1 ring-border/60 hover:bg-muted"
+          >
+            <span className="flex items-center gap-2">
+              <UserCog className="h-4 w-4 text-primary" />
+              Learning profile
+            </span>
+            <span className="text-xs text-muted-foreground">
+              {profileCompletion(profile)}% complete
+            </span>
+          </Link>
+
           <button
             onClick={() => {
               if (confirm("Clear all your asked questions?")) {

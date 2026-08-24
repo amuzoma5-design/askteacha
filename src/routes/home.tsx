@@ -1,10 +1,25 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { BookMarked, Camera, ChevronRight, Keyboard, Mic, NotebookPen, Send, Sparkles } from "lucide-react";
+import {
+  BookMarked,
+  Camera,
+  ChevronRight,
+  Compass,
+  Keyboard,
+  Loader2,
+  Mic,
+  NotebookPen,
+  RefreshCw,
+  Send,
+  Sparkles,
+  UserCog,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ImageModal } from "@/components/ImageModal";
 import { VoiceSheet } from "@/components/VoiceSheet";
-import { getProfile } from "@/lib/profile";
+import { daysUntilExam, getProfile, profileCompletion, type Profile } from "@/lib/profile";
+import { buildLearnerContext } from "@/lib/learner-context";
+import { apiUrl } from "@/lib/api-base";
 import { isSessionActive } from "@/lib/session";
 import { getHistory, type HistoryItem } from "@/lib/history";
 

@@ -9,10 +9,12 @@ import {
   ThumbsUp,
   ThumbsDown,
   NotebookPen,
+  Compass,
 } from "lucide-react";
 import { addToNotebook, isInNotebook, removeFromNotebook } from "@/lib/notebook";
 import { useEffect, useRef, useState } from "react";
 import { getProfile } from "@/lib/profile";
+import { buildLearnerContext } from "@/lib/learner-context";
 import { logQuestion } from "@/lib/analytics";
 import { apiUrl } from "@/lib/api-base";
 import {
@@ -91,6 +93,7 @@ function Answer() {
           question: payload.question,
           imageDataUrl: payload.imageDataUrl,
           profile,
+          learner: buildLearnerContext(profile),
         }),
       });
       if (!res.ok) {
@@ -164,6 +167,18 @@ function Answer() {
               <p className="mt-1 text-sm font-medium text-foreground">{item.question}</p>
             </section>
 
+            {item.answer.coachNote && (
+              <section className="rounded-2xl border border-primary/25 bg-primary/5 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                  A word from Teacha
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-foreground">
+                  {item.answer.coachNote}
+                </p>
+              </section>
+            )}
+
+
             <Card icon={<CheckCircle2 className="h-5 w-5 text-success" />} title="Final Answer">
               <p className="text-base font-semibold text-foreground">{item.answer.finalAnswer}</p>
             </Card>
@@ -206,6 +221,18 @@ function Answer() {
                 ))}
               </div>
             </section>
+
+            {item.answer.nextStep && (
+              <section className="rounded-2xl bg-card p-4 ring-1 ring-border/60">
+                <div className="mb-2 flex items-center gap-2">
+                  <Compass className="h-5 w-5 text-accent" />
+                  <h2 className="text-sm font-bold tracking-tight">What to learn next</h2>
+                </div>
+                <p className="text-sm leading-relaxed text-foreground">
+                  {item.answer.nextStep}
+                </p>
+              </section>
+            )}
 
             <NotebookBar item={item} />
 

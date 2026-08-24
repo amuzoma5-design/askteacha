@@ -1,10 +1,25 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { BookMarked, Camera, ChevronRight, Keyboard, Mic, NotebookPen, Send, Sparkles } from "lucide-react";
+import {
+  BookMarked,
+  Camera,
+  ChevronRight,
+  Compass,
+  Keyboard,
+  Loader2,
+  Mic,
+  NotebookPen,
+  RefreshCw,
+  Send,
+  Sparkles,
+  UserCog,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ImageModal } from "@/components/ImageModal";
 import { VoiceSheet } from "@/components/VoiceSheet";
-import { getProfile } from "@/lib/profile";
+import { daysUntilExam, getProfile, profileCompletion, type Profile } from "@/lib/profile";
+import { buildLearnerContext } from "@/lib/learner-context";
+import { apiUrl } from "@/lib/api-base";
 import { isSessionActive } from "@/lib/session";
 import { getHistory, type HistoryItem } from "@/lib/history";
 
@@ -33,7 +48,7 @@ function Home() {
   const [voiceOpen, setVoiceOpen] = useState(false);
   const [imageOpen, setImageOpen] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
-  const [firstName, setFirstName] = useState("");
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     const p = getProfile();
@@ -45,9 +60,13 @@ function Home() {
       navigate({ to: "/welcome", replace: true });
       return;
     }
-    setFirstName(p.fullName.split(" ")[0]);
+    setProfile(p);
     setHistory(getHistory());
   }, [navigate]);
+
+  const firstName = profile?.fullName.split(" ")[0] ?? "";
+  const completion = profileCompletion(profile);
+  const days = daysUntilExam(profile);
 
   const ask = (q: string, imageDataUrl?: string) => {
     const payload = { question: q, imageDataUrl };
@@ -73,7 +92,35 @@ function Home() {
           <h1 className="mt-1 text-2xl font-bold leading-tight">
             What do you want to learn today?
           </h1>
+          {typeof days === "number" && days >= 0 && (
+            <p className="mt-1 text-xs font-medium text-primary">
+              {days === 0
+                ? "Your exam is today — you've got this!"
+                : `${days} day${days === 1 ? "" : "s"} to your ${profile?.examType} exam`}
+            </p>
+          )}
         </div>
+
+        {completion < 100 && (
+          <Link
+            to="/learning-profile"
+            className="mb-4 flex items-center gap-3 rounded-2xl bg-accent/10 p-3 ring-1 ring-accent/30"
+          >
+            <span className="rounded-xl bg-accent/20 p-2 text-accent">
+              <UserCog className="h-5 w-5" />
+            </span>
+            <span className="flex-1">
+              <span className="block text-sm font-semibold text-foreground">
+                Make Teacha your personal tutor
+              </span>
+              <span className="block text-xs text-muted-foreground">
+                Profile {completion}% complete — add your subjects, weak areas and goal
+              </span>
+            </span>
+            <ChevronRight className="h-4 w-4 text-muted-foreground" />
+          </Link>
+        )}
+
 
         <form
           onSubmit={submitText}
@@ -116,6 +163,8 @@ function Home() {
             Ask Teacha
           </button>
         </form>
+
+        <TutorPlan onAsk={ask} />
 
         <Link
           to="/notebook"
@@ -221,6 +270,122 @@ function Home() {
         }}
       />
     </div>
+  );
+}
+
+interface Guidance {
+  greeting: string;
+  focusToday: string;
+  steps: string[];
+  suggestedQuestions: string[];
+  careerTip: string;
+}
+
+const PLAN_KEY = "askteacha.plan";
+
+function TutorPlan({ onAsk }: { onAsk: (q: string) => void }) {
+  const [plan, setPlan] = useState<Guidance | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(PLAN_KEY);
+      if (!raw) return;
+      const cached = JSON.parse(raw) as { day: string; plan: Guidance };
+      if (cached.day === new Date().toDateString()) setPlan(cached.plan);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const load = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(apiUrl("/api/public/guide"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ learner: buildLearnerContext() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Could not build your plan.");
+      setPlan(data as Guidance);
+      localStorage.setItem(
+        PLAN_KEY,
+        JSON.stringify({ day: new Date().toDateString(), plan: data }),
+      );
+    } catch (e: any) {
+      setError(e.message || "Could not build your plan.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section className="mt-4 rounded-2xl bg-card p-4 ring-1 ring-border/60">
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <h2 className="flex items-center gap-2 text-sm font-bold">
+          <Compass className="h-4 w-4 text-primary" />
+          Your plan for today
+        </h2>
+        <button
+          onClick={load}
+          disabled={loading}
+          className="flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-[11px] font-semibold text-secondary-foreground disabled:opacity-60"
+        >
+          {loading ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : (
+            <RefreshCw className="h-3 w-3" />
+          )}
+          {plan ? "Refresh" : "Get plan"}
+        </button>
+      </div>
+
+      {error && <p className="text-xs text-destructive">{error}</p>}
+
+      {!plan && !loading && !error && (
+        <p className="text-xs text-muted-foreground">
+          Teacha will use your profile, weak areas and saved mistakes to tell you exactly
+          what to study today.
+        </p>
+      )}
+
+      {plan && (
+        <div className="flex flex-col gap-3">
+          <p className="text-sm font-medium text-foreground">{plan.greeting}</p>
+          <div className="rounded-xl bg-primary/5 p-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+              Focus today
+            </p>
+            <p className="mt-1 text-sm text-foreground">{plan.focusToday}</p>
+          </div>
+          <ol className="flex list-decimal flex-col gap-1.5 pl-5 text-sm text-foreground">
+            {plan.steps.map((s, i) => (
+              <li key={i}>{s}</li>
+            ))}
+          </ol>
+          <div>
+            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Ask Teacha next
+            </p>
+            <div className="flex flex-col gap-2">
+              {plan.suggestedQuestions.map((q) => (
+                <button
+                  key={q}
+                  onClick={() => onAsk(q)}
+                  className="rounded-xl border border-border bg-background px-3 py-2 text-left text-sm font-medium text-foreground transition hover:border-primary hover:text-primary"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="text-xs italic text-muted-foreground">{plan.careerTip}</p>
+        </div>
+      )}
+    </section>
   );
 }
 

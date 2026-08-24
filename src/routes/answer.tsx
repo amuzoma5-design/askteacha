@@ -13,6 +13,7 @@ import {
 import { addToNotebook, isInNotebook, removeFromNotebook } from "@/lib/notebook";
 import { useEffect, useRef, useState } from "react";
 import { getProfile } from "@/lib/profile";
+import { buildLearnerContext } from "@/lib/learner-context";
 import { logQuestion } from "@/lib/analytics";
 import { apiUrl } from "@/lib/api-base";
 import {
@@ -91,6 +92,7 @@ function Answer() {
           question: payload.question,
           imageDataUrl: payload.imageDataUrl,
           profile,
+          learner: buildLearnerContext(profile),
         }),
       });
       if (!res.ok) {

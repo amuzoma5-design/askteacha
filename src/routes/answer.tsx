@@ -9,6 +9,7 @@ import {
   ThumbsUp,
   ThumbsDown,
   NotebookPen,
+  Compass,
 } from "lucide-react";
 import { addToNotebook, isInNotebook, removeFromNotebook } from "@/lib/notebook";
 import { useEffect, useRef, useState } from "react";
@@ -220,6 +221,18 @@ function Answer() {
                 ))}
               </div>
             </section>
+
+            {item.answer.nextStep && (
+              <section className="rounded-2xl bg-card p-4 ring-1 ring-border/60">
+                <div className="mb-2 flex items-center gap-2">
+                  <Compass className="h-5 w-5 text-accent" />
+                  <h2 className="text-sm font-bold tracking-tight">What to learn next</h2>
+                </div>
+                <p className="text-sm leading-relaxed text-foreground">
+                  {item.answer.nextStep}
+                </p>
+              </section>
+            )}
 
             <NotebookBar item={item} />
 

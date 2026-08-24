@@ -273,6 +273,122 @@ function Home() {
   );
 }
 
+interface Guidance {
+  greeting: string;
+  focusToday: string;
+  steps: string[];
+  suggestedQuestions: string[];
+  careerTip: string;
+}
+
+const PLAN_KEY = "askteacha.plan";
+
+function TutorPlan({ onAsk }: { onAsk: (q: string) => void }) {
+  const [plan, setPlan] = useState<Guidance | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(PLAN_KEY);
+      if (!raw) return;
+      const cached = JSON.parse(raw) as { day: string; plan: Guidance };
+      if (cached.day === new Date().toDateString()) setPlan(cached.plan);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const load = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(apiUrl("/api/public/guide"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ learner: buildLearnerContext() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Could not build your plan.");
+      setPlan(data as Guidance);
+      localStorage.setItem(
+        PLAN_KEY,
+        JSON.stringify({ day: new Date().toDateString(), plan: data }),
+      );
+    } catch (e: any) {
+      setError(e.message || "Could not build your plan.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section className="mt-4 rounded-2xl bg-card p-4 ring-1 ring-border/60">
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <h2 className="flex items-center gap-2 text-sm font-bold">
+          <Compass className="h-4 w-4 text-primary" />
+          Your plan for today
+        </h2>
+        <button
+          onClick={load}
+          disabled={loading}
+          className="flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-[11px] font-semibold text-secondary-foreground disabled:opacity-60"
+        >
+          {loading ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : (
+            <RefreshCw className="h-3 w-3" />
+          )}
+          {plan ? "Refresh" : "Get plan"}
+        </button>
+      </div>
+
+      {error && <p className="text-xs text-destructive">{error}</p>}
+
+      {!plan && !loading && !error && (
+        <p className="text-xs text-muted-foreground">
+          Teacha will use your profile, weak areas and saved mistakes to tell you exactly
+          what to study today.
+        </p>
+      )}
+
+      {plan && (
+        <div className="flex flex-col gap-3">
+          <p className="text-sm font-medium text-foreground">{plan.greeting}</p>
+          <div className="rounded-xl bg-primary/5 p-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+              Focus today
+            </p>
+            <p className="mt-1 text-sm text-foreground">{plan.focusToday}</p>
+          </div>
+          <ol className="flex list-decimal flex-col gap-1.5 pl-5 text-sm text-foreground">
+            {plan.steps.map((s, i) => (
+              <li key={i}>{s}</li>
+            ))}
+          </ol>
+          <div>
+            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Ask Teacha next
+            </p>
+            <div className="flex flex-col gap-2">
+              {plan.suggestedQuestions.map((q) => (
+                <button
+                  key={q}
+                  onClick={() => onAsk(q)}
+                  className="rounded-xl border border-border bg-background px-3 py-2 text-left text-sm font-medium text-foreground transition hover:border-primary hover:text-primary"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="text-xs italic text-muted-foreground">{plan.careerTip}</p>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function ActionBtn({
   icon,
   label,

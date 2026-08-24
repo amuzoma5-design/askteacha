@@ -48,7 +48,7 @@ function Home() {
   const [voiceOpen, setVoiceOpen] = useState(false);
   const [imageOpen, setImageOpen] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
-  const [firstName, setFirstName] = useState("");
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     const p = getProfile();
@@ -60,9 +60,13 @@ function Home() {
       navigate({ to: "/welcome", replace: true });
       return;
     }
-    setFirstName(p.fullName.split(" ")[0]);
+    setProfile(p);
     setHistory(getHistory());
   }, [navigate]);
+
+  const firstName = profile?.fullName.split(" ")[0] ?? "";
+  const completion = profileCompletion(profile);
+  const days = daysUntilExam(profile);
 
   const ask = (q: string, imageDataUrl?: string) => {
     const payload = { question: q, imageDataUrl };

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnswerRouteImport } from './routes/answer'
+import { Route as CbtRouteImport } from './routes/cbt'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LearningProfileRouteImport } from './routes/learning-profile'
@@ -38,6 +39,11 @@ const IndexRoute = IndexRouteImport.update({
 const AnswerRoute = AnswerRouteImport.update({
   id: '/answer',
   path: '/answer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CbtRoute = CbtRouteImport.update({
+  id: '/cbt',
+  path: '/cbt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HistoryRoute = HistoryRouteImport.update({
@@ -137,6 +143,7 @@ const ApiPublicPastQuestionsRoute = ApiPublicPastQuestionsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/cbt': typeof CbtRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/learning-profile': typeof LearningProfileRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/cbt': typeof CbtRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/learning-profile': typeof LearningProfileRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/cbt': typeof CbtRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/learning-profile': typeof LearningProfileRoute
@@ -206,6 +215,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/answer'
+    | '/cbt'
     | '/history'
     | '/home'
     | '/learning-profile'
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/answer'
+    | '/cbt'
     | '/history'
     | '/home'
     | '/learning-profile'
@@ -250,6 +261,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/answer'
+    | '/cbt'
     | '/history'
     | '/home'
     | '/learning-profile'
@@ -273,6 +285,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnswerRoute: typeof AnswerRoute
+  CbtRoute: typeof CbtRoute
   HistoryRoute: typeof HistoryRoute
   HomeRoute: typeof HomeRoute
   LearningProfileRoute: typeof LearningProfileRoute
@@ -307,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/answer'
       fullPath: '/answer'
       preLoaderRoute: typeof AnswerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cbt': {
+      id: '/cbt'
+      path: '/cbt'
+      fullPath: '/cbt'
+      preLoaderRoute: typeof CbtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/history': {
@@ -441,6 +461,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnswerRoute: AnswerRoute,
+  CbtRoute: CbtRoute,
   HistoryRoute: HistoryRoute,
   HomeRoute: HomeRoute,
   LearningProfileRoute: LearningProfileRoute,

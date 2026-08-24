@@ -164,6 +164,8 @@ function Home() {
           </button>
         </form>
 
+        <TutorPlan onAsk={ask} />
+
         <Link
           to="/notebook"
           className="mt-4 flex items-center gap-3 rounded-2xl bg-card p-3 ring-1 ring-border/60 transition hover:ring-warning/40"

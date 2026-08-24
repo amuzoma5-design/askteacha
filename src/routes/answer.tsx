@@ -166,6 +166,18 @@ function Answer() {
               <p className="mt-1 text-sm font-medium text-foreground">{item.question}</p>
             </section>
 
+            {item.answer.coachNote && (
+              <section className="rounded-2xl border border-primary/25 bg-primary/5 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                  A word from Teacha
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-foreground">
+                  {item.answer.coachNote}
+                </p>
+              </section>
+            )}
+
+
             <Card icon={<CheckCircle2 className="h-5 w-5 text-success" />} title="Final Answer">
               <p className="text-base font-semibold text-foreground">{item.answer.finalAnswer}</p>
             </Card>

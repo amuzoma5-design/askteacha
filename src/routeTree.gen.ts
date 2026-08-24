@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnswerRouteImport } from './routes/answer'
+import { Route as CbtRouteImport } from './routes/cbt'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LearningProfileRouteImport } from './routes/learning-profile'
@@ -24,6 +25,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as ApiPublicAskRouteImport } from './routes/api/public/ask'
+import { Route as ApiPublicCbtRouteImport } from './routes/api/public/cbt'
 import { Route as ApiPublicGuideRouteImport } from './routes/api/public/guide'
 import { Route as ApiPublicLogAnalyticsRouteImport } from './routes/api/public/log-analytics'
 import { Route as ApiPublicLogFeedbackRouteImport } from './routes/api/public/log-feedback'
@@ -37,6 +39,11 @@ const IndexRoute = IndexRouteImport.update({
 const AnswerRoute = AnswerRouteImport.update({
   id: '/answer',
   path: '/answer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CbtRoute = CbtRouteImport.update({
+  id: '/cbt',
+  path: '/cbt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HistoryRoute = HistoryRouteImport.update({
@@ -107,6 +114,11 @@ const ApiPublicAskRoute = ApiPublicAskRouteImport.update({
   path: '/api/public/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCbtRoute = ApiPublicCbtRouteImport.update({
+  id: '/api/public/cbt',
+  path: '/api/public/cbt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicGuideRoute = ApiPublicGuideRouteImport.update({
   id: '/api/public/guide',
   path: '/api/public/guide',
@@ -131,6 +143,7 @@ const ApiPublicPastQuestionsRoute = ApiPublicPastQuestionsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/cbt': typeof CbtRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/learning-profile': typeof LearningProfileRoute
@@ -144,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
+  '/api/public/cbt': typeof ApiPublicCbtRoute
   '/api/public/guide': typeof ApiPublicGuideRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
@@ -152,6 +166,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/cbt': typeof CbtRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/learning-profile': typeof LearningProfileRoute
@@ -165,6 +180,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
+  '/api/public/cbt': typeof ApiPublicCbtRoute
   '/api/public/guide': typeof ApiPublicGuideRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
@@ -174,6 +190,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/cbt': typeof CbtRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
   '/learning-profile': typeof LearningProfileRoute
@@ -187,6 +204,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ask': typeof ApiPublicAskRoute
+  '/api/public/cbt': typeof ApiPublicCbtRoute
   '/api/public/guide': typeof ApiPublicGuideRoute
   '/api/public/log-analytics': typeof ApiPublicLogAnalyticsRoute
   '/api/public/log-feedback': typeof ApiPublicLogFeedbackRoute
@@ -197,6 +215,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/answer'
+    | '/cbt'
     | '/history'
     | '/home'
     | '/learning-profile'
@@ -210,6 +229,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
+    | '/api/public/cbt'
     | '/api/public/guide'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
@@ -218,6 +238,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/answer'
+    | '/cbt'
     | '/history'
     | '/home'
     | '/learning-profile'
@@ -231,6 +252,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
+    | '/api/public/cbt'
     | '/api/public/guide'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
@@ -239,6 +261,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/answer'
+    | '/cbt'
     | '/history'
     | '/home'
     | '/learning-profile'
@@ -252,6 +275,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ask'
+    | '/api/public/cbt'
     | '/api/public/guide'
     | '/api/public/log-analytics'
     | '/api/public/log-feedback'
@@ -261,6 +285,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnswerRoute: typeof AnswerRoute
+  CbtRoute: typeof CbtRoute
   HistoryRoute: typeof HistoryRoute
   HomeRoute: typeof HomeRoute
   LearningProfileRoute: typeof LearningProfileRoute
@@ -274,6 +299,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicAskRoute: typeof ApiPublicAskRoute
+  ApiPublicCbtRoute: typeof ApiPublicCbtRoute
   ApiPublicGuideRoute: typeof ApiPublicGuideRoute
   ApiPublicLogAnalyticsRoute: typeof ApiPublicLogAnalyticsRoute
   ApiPublicLogFeedbackRoute: typeof ApiPublicLogFeedbackRoute
@@ -294,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/answer'
       fullPath: '/answer'
       preLoaderRoute: typeof AnswerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cbt': {
+      id: '/cbt'
+      path: '/cbt'
+      fullPath: '/cbt'
+      preLoaderRoute: typeof CbtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/history': {
@@ -387,6 +420,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicAskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/cbt': {
+      id: '/api/public/cbt'
+      path: '/api/public/cbt'
+      fullPath: '/api/public/cbt'
+      preLoaderRoute: typeof ApiPublicCbtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/guide': {
       id: '/api/public/guide'
       path: '/api/public/guide'
@@ -421,6 +461,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnswerRoute: AnswerRoute,
+  CbtRoute: CbtRoute,
   HistoryRoute: HistoryRoute,
   HomeRoute: HomeRoute,
   LearningProfileRoute: LearningProfileRoute,
@@ -435,6 +476,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicAskRoute: ApiPublicAskRoute,
+  ApiPublicCbtRoute: ApiPublicCbtRoute,
   ApiPublicGuideRoute: ApiPublicGuideRoute,
   ApiPublicLogAnalyticsRoute: ApiPublicLogAnalyticsRoute,
   ApiPublicLogFeedbackRoute: ApiPublicLogFeedbackRoute,

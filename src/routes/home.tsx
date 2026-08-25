@@ -7,6 +7,8 @@ import {
   Keyboard,
   Loader2,
   Mic,
+  MonitorPlay,
+
   NotebookPen,
   RefreshCw,
   Send,
@@ -183,6 +185,24 @@ function Home() {
         </Link>
 
         <Link
+          to="/cbt"
+          className="mt-4 flex items-center gap-3 rounded-2xl bg-card p-3 ring-1 ring-border/60 transition hover:ring-primary/40"
+        >
+          <span className="rounded-xl bg-primary/15 p-2 text-primary">
+            <MonitorPlay className="h-5 w-5" />
+          </span>
+          <span className="flex-1">
+            <span className="block text-sm font-semibold text-foreground">
+              JAMB CBT Simulator
+            </span>
+            <span className="block text-xs text-muted-foreground">
+              Timed mock exam with instant score and explanations
+            </span>
+          </span>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </Link>
+
+        <Link
           to="/past-questions"
           className="mt-4 flex items-center gap-3 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 p-3 ring-1 ring-primary/20 transition hover:ring-primary/40"
         >
@@ -197,6 +217,7 @@ function Home() {
           </span>
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
         </Link>
+
 
         <section className="mt-7">
           <h2 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-foreground">

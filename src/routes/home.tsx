@@ -7,6 +7,8 @@ import {
   Keyboard,
   Loader2,
   Mic,
+  MonitorPlay,
+
   NotebookPen,
   RefreshCw,
   Send,

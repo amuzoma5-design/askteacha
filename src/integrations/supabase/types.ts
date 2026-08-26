@@ -14,16 +14,338 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_actions: {
+        Row: {
+          action: string
+          admin_id: string
+          created_at: string
+          detail: Json
+          id: string
+          target_user_id: string
+        }
+        Insert: {
+          action: string
+          admin_id: string
+          created_at?: string
+          detail?: Json
+          id?: string
+          target_user_id: string
+        }
+        Update: {
+          action?: string
+          admin_id?: string
+          created_at?: string
+          detail?: Json
+          id?: string
+          target_user_id?: string
+        }
+        Relationships: []
+      }
+      cbt_results: {
+        Row: {
+          created_at: string
+          id: string
+          score: number
+          subject: string
+          total: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          score?: number
+          subject?: string
+          total?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          score?: number
+          subject?: string
+          total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notebook_entries: {
+        Row: {
+          answer: Json
+          created_at: string
+          id: string
+          key_mistake: string | null
+          local_id: string | null
+          question: string
+          revised: boolean
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          answer?: Json
+          created_at?: string
+          id?: string
+          key_mistake?: string | null
+          local_id?: string | null
+          question?: string
+          revised?: boolean
+          subject?: string
+          user_id: string
+        }
+        Update: {
+          answer?: Json
+          created_at?: string
+          id?: string
+          key_mistake?: string | null
+          local_id?: string | null
+          question?: string
+          revised?: boolean
+          subject?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          career_goal: string | null
+          class_level: string
+          created_at: string
+          email: string | null
+          exam_date: string | null
+          exam_type: string
+          full_name: string
+          id: string
+          learning_style: string | null
+          notes: string | null
+          plan: Database["public"]["Enums"]["app_plan"]
+          strong_subjects: string[]
+          student_code: string
+          subjects: string[]
+          target_score: string | null
+          trial_expires_at: string
+          trial_start_at: string
+          updated_at: string
+          weak_subjects: string[]
+        }
+        Insert: {
+          career_goal?: string | null
+          class_level?: string
+          created_at?: string
+          email?: string | null
+          exam_date?: string | null
+          exam_type?: string
+          full_name?: string
+          id: string
+          learning_style?: string | null
+          notes?: string | null
+          plan?: Database["public"]["Enums"]["app_plan"]
+          strong_subjects?: string[]
+          student_code?: string
+          subjects?: string[]
+          target_score?: string | null
+          trial_expires_at?: string
+          trial_start_at?: string
+          updated_at?: string
+          weak_subjects?: string[]
+        }
+        Update: {
+          career_goal?: string | null
+          class_level?: string
+          created_at?: string
+          email?: string | null
+          exam_date?: string | null
+          exam_type?: string
+          full_name?: string
+          id?: string
+          learning_style?: string | null
+          notes?: string | null
+          plan?: Database["public"]["Enums"]["app_plan"]
+          strong_subjects?: string[]
+          student_code?: string
+          subjects?: string[]
+          target_score?: string | null
+          trial_expires_at?: string
+          trial_start_at?: string
+          updated_at?: string
+          weak_subjects?: string[]
+        }
+        Relationships: []
+      }
+      question_history: {
+        Row: {
+          answer: Json
+          created_at: string
+          id: string
+          local_id: string | null
+          question: string
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          answer?: Json
+          created_at?: string
+          id?: string
+          local_id?: string | null
+          question?: string
+          subject?: string
+          user_id: string
+        }
+        Update: {
+          answer?: Json
+          created_at?: string
+          id?: string
+          local_id?: string | null
+          question?: string
+          subject?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          amount: number
+          approved_by: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          plan: Database["public"]["Enums"]["app_plan"]
+          started_at: string
+          status: Database["public"]["Enums"]["sub_status"]
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          approved_by?: string | null
+          created_at?: string
+          expires_at: string
+          id?: string
+          plan?: Database["public"]["Enums"]["app_plan"]
+          started_at?: string
+          status?: Database["public"]["Enums"]["sub_status"]
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          approved_by?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          plan?: Database["public"]["Enums"]["app_plan"]
+          started_at?: string
+          status?: Database["public"]["Enums"]["sub_status"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      upgrade_requests: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          note: string | null
+          plan: Database["public"]["Enums"]["app_plan"]
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["request_status"]
+          subscription_expires_at: string | null
+          subscription_start_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          id?: string
+          note?: string | null
+          plan?: Database["public"]["Enums"]["app_plan"]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          subscription_expires_at?: string | null
+          subscription_start_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          note?: string | null
+          plan?: Database["public"]["Enums"]["app_plan"]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          subscription_expires_at?: string | null
+          subscription_start_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      usage_events: {
+        Row: {
+          created_at: string
+          feature: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          feature: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          feature?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      effective_plan: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_plan"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      sync_access_state: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_plan"]
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_plan: "trial" | "free" | "foundation" | "scholar" | "achiever"
+      app_role: "student" | "admin"
+      request_status: "pending" | "approved" | "rejected" | "expired"
+      sub_status: "active" | "expired" | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +472,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_plan: ["trial", "free", "foundation", "scholar", "achiever"],
+      app_role: ["student", "admin"],
+      request_status: ["pending", "approved", "rejected", "expired"],
+      sub_status: ["active", "expired", "cancelled"],
+    },
   },
 } as const

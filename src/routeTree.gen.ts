@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnswerRouteImport } from './routes/answer'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CbtRouteImport } from './routes/cbt'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as HomeRouteImport } from './routes/home'
@@ -39,6 +40,11 @@ const IndexRoute = IndexRouteImport.update({
 const AnswerRoute = AnswerRouteImport.update({
   id: '/answer',
   path: '/answer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CbtRoute = CbtRouteImport.update({
@@ -143,6 +149,7 @@ const ApiPublicPastQuestionsRoute = ApiPublicPastQuestionsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/auth': typeof AuthRoute
   '/cbt': typeof CbtRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/auth': typeof AuthRoute
   '/cbt': typeof CbtRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/answer': typeof AnswerRoute
+  '/auth': typeof AuthRoute
   '/cbt': typeof CbtRoute
   '/history': typeof HistoryRoute
   '/home': typeof HomeRoute
@@ -215,6 +224,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/answer'
+    | '/auth'
     | '/cbt'
     | '/history'
     | '/home'
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/answer'
+    | '/auth'
     | '/cbt'
     | '/history'
     | '/home'
@@ -261,6 +272,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/answer'
+    | '/auth'
     | '/cbt'
     | '/history'
     | '/home'
@@ -285,6 +297,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnswerRoute: typeof AnswerRoute
+  AuthRoute: typeof AuthRoute
   CbtRoute: typeof CbtRoute
   HistoryRoute: typeof HistoryRoute
   HomeRoute: typeof HomeRoute
@@ -320,6 +333,13 @@ declare module '@tanstack/react-router' {
       path: '/answer'
       fullPath: '/answer'
       preLoaderRoute: typeof AnswerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cbt': {
@@ -461,6 +481,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnswerRoute: AnswerRoute,
+  AuthRoute: AuthRoute,
   CbtRoute: CbtRoute,
   HistoryRoute: HistoryRoute,
   HomeRoute: HomeRoute,

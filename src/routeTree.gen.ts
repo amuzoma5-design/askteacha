@@ -21,6 +21,7 @@ import { Route as NotebookRouteImport } from './routes/notebook'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PastQuestionsRouteImport } from './routes/past-questions'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as UpgradeRouteImport } from './routes/upgrade'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
@@ -92,6 +93,11 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UpgradeRoute = UpgradeRouteImport.update({
+  id: '/upgrade',
+  path: '/upgrade',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
   path: '/welcome',
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/past-questions': typeof PastQuestionsRoute
   '/settings': typeof SettingsRoute
+  '/upgrade': typeof UpgradeRoute
   '/welcome': typeof WelcomeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/past-questions': typeof PastQuestionsRoute
   '/settings': typeof SettingsRoute
+  '/upgrade': typeof UpgradeRoute
   '/welcome': typeof WelcomeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -208,6 +216,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/past-questions': typeof PastQuestionsRoute
   '/settings': typeof SettingsRoute
+  '/upgrade': typeof UpgradeRoute
   '/welcome': typeof WelcomeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/past-questions'
     | '/settings'
+    | '/upgrade'
     | '/welcome'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/past-questions'
     | '/settings'
+    | '/upgrade'
     | '/welcome'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/past-questions'
     | '/settings'
+    | '/upgrade'
     | '/welcome'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -307,6 +319,7 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   PastQuestionsRoute: typeof PastQuestionsRoute
   SettingsRoute: typeof SettingsRoute
+  UpgradeRoute: typeof UpgradeRoute
   WelcomeRoute: typeof WelcomeRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -405,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/upgrade': {
+      id: '/upgrade'
+      path: '/upgrade'
+      fullPath: '/upgrade'
+      preLoaderRoute: typeof UpgradeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/welcome': {
       id: '/welcome'
       path: '/welcome'
@@ -491,6 +511,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   PastQuestionsRoute: PastQuestionsRoute,
   SettingsRoute: SettingsRoute,
+  UpgradeRoute: UpgradeRoute,
   WelcomeRoute: WelcomeRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:

@@ -94,6 +94,19 @@ function Settings() {
         </section>
 
         <section className="mt-6 flex flex-col gap-2">
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className="flex w-full items-center justify-between rounded-2xl bg-card p-4 text-sm font-medium ring-1 ring-border/60 hover:bg-muted"
+            >
+              <span className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-primary" />
+                Admin dashboard
+              </span>
+              <span className="text-xs text-muted-foreground">Approve payments</span>
+            </Link>
+          )}
+
           <Link
             to="/learning-profile"
             className="flex w-full items-center justify-between rounded-2xl bg-card p-4 text-sm font-medium ring-1 ring-border/60 hover:bg-muted"

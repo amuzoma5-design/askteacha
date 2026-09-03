@@ -1,9 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, LogOut, RotateCcw, Trash2, UserCog } from "lucide-react";
+import { ArrowLeft, LogOut, RotateCcw, ShieldCheck, Trash2, UserCog } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useAccount } from "@/hooks/useAccount";
 import { clearProfile, getProfile, profileCompletion, type Profile } from "@/lib/profile";
 import { clearHistory, getHistory } from "@/lib/history";
 import { endSession } from "@/lib/session";
+
 
 export const Route = createFileRoute("/settings")({
   head: () => ({

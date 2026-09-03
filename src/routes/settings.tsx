@@ -19,7 +19,9 @@ export const Route = createFileRoute("/settings")({
 
 function Settings() {
   const navigate = useNavigate();
+  const { isAdmin } = useAccount();
   const [profile, setProfile] = useState<Profile | null>(null);
+
   const [confirmReset, setConfirmReset] = useState(false);
   const [count, setCount] = useState(0);
   const [topSubject, setTopSubject] = useState("—");

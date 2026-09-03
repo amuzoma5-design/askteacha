@@ -2,13 +2,14 @@
 // Change these values here only — nothing else in the app hard-codes them.
 
 export const PAYMENT_CONFIG = {
-  bankName: "[BANK_NAME]",
-  accountName: "[ACCOUNT_NAME]",
-  accountNumber: "[ACCOUNT_NUMBER]",
+  bankName: "FCMB",
+  accountName: "Ask Teacha",
+  accountNumber: "8820740015",
   /** International format, digits only, no "+" — e.g. 2348012345678 */
-  whatsappNumber: "[ASK_TEACHER_WHATSAPP_NUMBER]",
+  whatsappNumber: "2349044209650",
   currency: "₦",
 };
+
 
 /** True once the real details have replaced the placeholders. */
 export function paymentDetailsConfigured(): boolean {

@@ -109,7 +109,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
             hasImage: false,
             subject: r.subject,
             createdAt: r.createdAt,
-            answer: r.answer as HistoryItem["answer"],
+            answer: r.answer as unknown as HistoryItem["answer"],
           });
         }
         const localNotebookIds = new Set(getNotebook().map((n) => n.id));

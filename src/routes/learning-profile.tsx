@@ -40,7 +40,7 @@ function LearningProfile() {
   useEffect(() => {
     const p = getProfile();
     if (!p) {
-      navigate({ to: "/onboarding", replace: true });
+      navigate({ to: "/auth", replace: true });
       return;
     }
     setProfile(p);

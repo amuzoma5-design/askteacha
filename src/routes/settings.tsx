@@ -189,10 +189,11 @@ function Settings() {
             </p>
             <div className="mt-5 flex flex-col gap-2">
               <button
-                onClick={() => {
+                onClick={async () => {
                   clearProfile();
                   clearHistory();
-                  endSession();
+                  queryClient.clear();
+                  await supabase.auth.signOut();
                   navigate({ to: "/auth", replace: true });
                 }}
                 className="w-full rounded-xl bg-destructive px-4 py-3 text-sm font-semibold text-destructive-foreground transition hover:opacity-90"

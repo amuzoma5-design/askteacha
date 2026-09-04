@@ -85,7 +85,9 @@ function Home() {
     <div className="min-h-screen bg-background pb-16">
       <AppHeader />
       <main className="mx-auto w-full max-w-md px-4 py-5">
+        <PlanBanner />
         <div className="mb-5">
+
           <p className="text-xs uppercase tracking-wider text-muted-foreground">
             Hi {firstName || "there"} 👋
           </p>

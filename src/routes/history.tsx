@@ -2,8 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Clock, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
-import { getProfile } from "@/lib/profile";
-import { isSessionActive } from "@/lib/session";
+import { useAccount } from "@/hooks/useAccount";
 import { clearHistory, getHistory, type HistoryItem } from "@/lib/history";
 
 export const Route = createFileRoute("/history")({
@@ -28,20 +27,17 @@ function formatWhen(ts: number) {
 
 function History() {
   const navigate = useNavigate();
+  const { session, loadingSession } = useAccount();
   const [items, setItems] = useState<HistoryItem[]>([]);
 
   useEffect(() => {
-    const p = getProfile();
-    if (!p) {
-      navigate({ to: "/onboarding", replace: true });
-      return;
-    }
-    if (!isSessionActive()) {
-      navigate({ to: "/welcome", replace: true });
+    if (loadingSession) return;
+    if (!session) {
+      navigate({ to: "/auth", replace: true });
       return;
     }
     setItems(getHistory().sort((a, b) => b.createdAt - a.createdAt));
-  }, [navigate]);
+  }, [navigate, session, loadingSession]);
 
   const handleClear = () => {
     if (!confirm("Clear all learning history? This cannot be undone.")) return;

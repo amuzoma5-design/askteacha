@@ -2,8 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, BookmarkX, CheckCheck, NotebookPen, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
-import { getProfile } from "@/lib/profile";
-import { isSessionActive } from "@/lib/session";
+import { useAccount } from "@/hooks/useAccount";
 import {
   clearNotebook,
   getNotebook,
@@ -36,19 +35,17 @@ export const Route = createFileRoute("/notebook")({
 
 function Notebook() {
   const navigate = useNavigate();
+  const { session, loadingSession } = useAccount();
   const [items, setItems] = useState<NotebookItem[]>([]);
 
   useEffect(() => {
-    if (!getProfile()) {
-      navigate({ to: "/onboarding", replace: true });
-      return;
-    }
-    if (!isSessionActive()) {
-      navigate({ to: "/welcome", replace: true });
+    if (loadingSession) return;
+    if (!session) {
+      navigate({ to: "/auth", replace: true });
       return;
     }
     setItems(getNotebook());
-  }, [navigate]);
+  }, [navigate, session, loadingSession]);
 
   const refresh = () => setItems(getNotebook());
 

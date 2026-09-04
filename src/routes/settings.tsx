@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useAccount } from "@/hooks/useAccount";
 import { clearProfile, getProfile, profileCompletion, type Profile } from "@/lib/profile";
 import { clearHistory, getHistory } from "@/lib/history";
-import { endSession } from "@/lib/session";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export const Route = createFileRoute("/settings")({
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/settings")({
 function Settings() {
   const navigate = useNavigate();
   const { isAdmin } = useAccount();
+  const queryClient = useQueryClient();
   const [profile, setProfile] = useState<Profile | null>(null);
 
   const [confirmReset, setConfirmReset] = useState(false);
@@ -29,7 +31,7 @@ function Settings() {
   const load = () => {
     const p = getProfile();
     if (!p) {
-      navigate({ to: "/onboarding", replace: true });
+      setProfile(null);
       return;
     }
     setProfile(p);
@@ -141,9 +143,11 @@ function Settings() {
           </button>
 
           <button
-            onClick={() => {
-              endSession();
-              navigate({ to: "/welcome", replace: true });
+            onClick={async () => {
+              await queryClient.cancelQueries();
+              queryClient.clear();
+              await supabase.auth.signOut();
+              navigate({ to: "/auth", replace: true });
             }}
             className="flex w-full items-center justify-between rounded-2xl bg-card p-4 text-sm font-medium ring-1 ring-border/60 hover:bg-muted"
           >
@@ -185,11 +189,12 @@ function Settings() {
             </p>
             <div className="mt-5 flex flex-col gap-2">
               <button
-                onClick={() => {
+                onClick={async () => {
                   clearProfile();
                   clearHistory();
-                  endSession();
-                  navigate({ to: "/onboarding", replace: true });
+                  queryClient.clear();
+                  await supabase.auth.signOut();
+                  navigate({ to: "/auth", replace: true });
                 }}
                 className="w-full rounded-xl bg-destructive px-4 py-3 text-sm font-semibold text-destructive-foreground transition hover:opacity-90"
               >

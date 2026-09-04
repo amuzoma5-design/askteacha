@@ -13,7 +13,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import { getProfile } from "@/lib/profile";
+import { useAccount } from "@/hooks/useAccount";
 import heroImg from "@/assets/hero-illustration.png";
 
 export const Route = createFileRoute("/")({
@@ -31,14 +31,11 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
-  const [hasProfile, setHasProfile] = useState(false);
+  const { session } = useAccount();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    setHasProfile(!!getProfile());
-  }, []);
-
-  const appLink = hasProfile ? "/home" : "/onboarding";
+  const hasProfile = Boolean(session);
+  const appLink = hasProfile ? "/home" : "/auth";
 
   const trySample = () => {
     const sample = "Explain photosynthesis in simple terms";

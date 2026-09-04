@@ -22,7 +22,8 @@ import { VoiceSheet } from "@/components/VoiceSheet";
 import { daysUntilExam, getProfile, profileCompletion, type Profile } from "@/lib/profile";
 import { buildLearnerContext } from "@/lib/learner-context";
 import { apiUrl } from "@/lib/api-base";
-import { isSessionActive } from "@/lib/session";
+import { useAccount } from "@/hooks/useAccount";
+import { PlanBanner } from "@/components/PlanBanner";
 import { getHistory, type HistoryItem } from "@/lib/history";
 
 export const Route = createFileRoute("/home")({
@@ -46,6 +47,7 @@ const SUGGESTIONS = [
 
 function Home() {
   const navigate = useNavigate();
+  const { session, loadingSession } = useAccount();
   const [text, setText] = useState("");
   const [voiceOpen, setVoiceOpen] = useState(false);
   const [imageOpen, setImageOpen] = useState(false);
@@ -53,18 +55,14 @@ function Home() {
   const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
-    const p = getProfile();
-    if (!p) {
-      navigate({ to: "/onboarding", replace: true });
+    if (loadingSession) return;
+    if (!session) {
+      navigate({ to: "/auth", replace: true });
       return;
     }
-    if (!isSessionActive()) {
-      navigate({ to: "/welcome", replace: true });
-      return;
-    }
-    setProfile(p);
+    setProfile(getProfile());
     setHistory(getHistory());
-  }, [navigate]);
+  }, [navigate, session, loadingSession]);
 
   const firstName = profile?.fullName.split(" ")[0] ?? "";
   const completion = profileCompletion(profile);

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { apiUrl } from "@/lib/api-base";
 import { getProfile } from "@/lib/profile";
-import { isSessionActive } from "@/lib/session";
+import { useAccount } from "@/hooks/useAccount";
 
 export const Route = createFileRoute("/past-questions")({
   head: () => ({
@@ -51,14 +51,11 @@ function PastQuestions() {
   const [questions, setQuestions] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!getProfile()) {
-      navigate({ to: "/onboarding", replace: true });
-      return;
+    if (loadingSession) return;
+    if (!session) {
+      navigate({ to: "/auth", replace: true });
     }
-    if (!isSessionActive()) {
-      navigate({ to: "/welcome", replace: true });
-    }
-  }, [navigate]);
+  }, [navigate, session, loadingSession]);
 
   const generate = async () => {
     setLoading(true);

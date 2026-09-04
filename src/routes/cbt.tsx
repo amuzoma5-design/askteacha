@@ -13,7 +13,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { apiUrl } from "@/lib/api-base";
 import { getProfile } from "@/lib/profile";
-import { isSessionActive } from "@/lib/session";
+import { useAccount } from "@/hooks/useAccount";
 import { addToNotebook } from "@/lib/notebook";
 import { newId } from "@/lib/history";
 
@@ -90,12 +90,9 @@ function CbtSimulator() {
   const submittedRef = useRef(false);
 
   useEffect(() => {
-    if (!getProfile()) {
-      navigate({ to: "/onboarding", replace: true });
-      return;
-    }
-    if (!isSessionActive()) navigate({ to: "/welcome", replace: true });
-  }, [navigate]);
+    if (loadingSession) return;
+    if (!session) navigate({ to: "/auth", replace: true });
+  }, [navigate, session, loadingSession]);
 
   useEffect(() => {
     if (stage !== "exam") return;

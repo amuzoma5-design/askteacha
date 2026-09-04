@@ -76,6 +76,7 @@ function fmt(sec: number) {
 
 function CbtSimulator() {
   const navigate = useNavigate();
+  const { session, loadingSession } = useAccount();
   const [stage, setStage] = useState<Stage>("setup");
   const [subject, setSubject] = useState(SUBJECTS[1]);
   const [count, setCount] = useState(10);

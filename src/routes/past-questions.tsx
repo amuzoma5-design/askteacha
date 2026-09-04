@@ -43,6 +43,7 @@ type Exam = (typeof EXAMS)[number];
 
 function PastQuestions() {
   const navigate = useNavigate();
+  const { session, loadingSession } = useAccount();
   const [exam, setExam] = useState<Exam>("WAEC");
   const [subject, setSubject] = useState(SUBJECTS[0]);
   const [year, setYear] = useState("Any");

@@ -12,7 +12,6 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { apiUrl } from "@/lib/api-base";
-import { getProfile } from "@/lib/profile";
 import { useAccount } from "@/hooks/useAccount";
 import { addToNotebook } from "@/lib/notebook";
 import { newId } from "@/lib/history";

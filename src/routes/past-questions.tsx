@@ -3,7 +3,6 @@ import { ArrowLeft, BookMarked, Loader2, Sparkles, ChevronRight } from "lucide-r
 import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { apiUrl } from "@/lib/api-base";
-import { getProfile } from "@/lib/profile";
 import { useAccount } from "@/hooks/useAccount";
 
 export const Route = createFileRoute("/past-questions")({

@@ -2,7 +2,6 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Clock, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
-import { getProfile } from "@/lib/profile";
 import { useAccount } from "@/hooks/useAccount";
 import { clearHistory, getHistory, type HistoryItem } from "@/lib/history";
 

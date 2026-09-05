@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { apiUrl } from "@/lib/api-base";
 import { useAccount } from "@/hooks/useAccount";
+import { LimitDialog, UsageLeft, useMeter } from "@/hooks/useMeter";
 
 export const Route = createFileRoute("/past-questions")({
   head: () => ({
@@ -43,6 +44,7 @@ type Exam = (typeof EXAMS)[number];
 function PastQuestions() {
   const navigate = useNavigate();
   const { session, loadingSession } = useAccount();
+  const meter = useMeter();
   const [exam, setExam] = useState<Exam>("WAEC");
   const [subject, setSubject] = useState(SUBJECTS[0]);
   const [year, setYear] = useState("Any");
@@ -58,6 +60,7 @@ function PastQuestions() {
   }, [navigate, session, loadingSession]);
 
   const generate = async () => {
+    if (!(await meter.check("past_questions"))) return;
     setLoading(true);
     setError(null);
     setQuestions([]);
@@ -85,7 +88,8 @@ function PastQuestions() {
     }
   };
 
-  const solve = (q: string) => {
+  const solve = async (q: string) => {
+    if (!(await meter.check("question"))) return;
     sessionStorage.setItem(
       "askteacha.pending",
       JSON.stringify({ question: q }),
@@ -96,6 +100,7 @@ function PastQuestions() {
   return (
     <div className="min-h-screen bg-background pb-16">
       <AppHeader />
+      <LimitDialog feature={meter.blocked} onClose={meter.clear} />
       <main className="mx-auto w-full max-w-md px-4 py-5">
         <Link
           to="/home"

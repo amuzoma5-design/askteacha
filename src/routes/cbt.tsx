@@ -13,6 +13,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { apiUrl } from "@/lib/api-base";
 import { useAccount } from "@/hooks/useAccount";
+import { LimitDialog, UsageLeft, useMeter } from "@/hooks/useMeter";
 import { addToNotebook } from "@/lib/notebook";
 import { newId } from "@/lib/history";
 
@@ -76,6 +77,7 @@ function fmt(sec: number) {
 function CbtSimulator() {
   const navigate = useNavigate();
   const { session, loadingSession } = useAccount();
+  const meter = useMeter();
   const [stage, setStage] = useState<Stage>("setup");
   const [subject, setSubject] = useState(SUBJECTS[1]);
   const [count, setCount] = useState(10);
@@ -113,6 +115,7 @@ function CbtSimulator() {
   }, [stage]);
 
   const start = async () => {
+    if (!(await meter.check("cbt"))) return;
     setLoading(true);
     setError(null);
     try {
@@ -150,6 +153,7 @@ function CbtSimulator() {
   return (
     <div className="min-h-screen bg-background pb-16">
       <AppHeader />
+      <LimitDialog feature={meter.blocked} onClose={meter.clear} />
       <main className="mx-auto w-full max-w-md px-4 py-5">
         <Link
           to="/home"

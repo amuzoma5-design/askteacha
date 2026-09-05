@@ -23,6 +23,7 @@ import { daysUntilExam, getProfile, profileCompletion, type Profile } from "@/li
 import { buildLearnerContext } from "@/lib/learner-context";
 import { apiUrl } from "@/lib/api-base";
 import { useAccount } from "@/hooks/useAccount";
+import { LimitDialog, UsageLeft, useMeter } from "@/hooks/useMeter";
 import { PlanBanner } from "@/components/PlanBanner";
 import { getHistory, type HistoryItem } from "@/lib/history";
 
@@ -48,6 +49,7 @@ const SUGGESTIONS = [
 function Home() {
   const navigate = useNavigate();
   const { session, loadingSession } = useAccount();
+  const meter = useMeter();
   const [text, setText] = useState("");
   const [voiceOpen, setVoiceOpen] = useState(false);
   const [imageOpen, setImageOpen] = useState(false);
@@ -68,7 +70,8 @@ function Home() {
   const completion = profileCompletion(profile);
   const days = daysUntilExam(profile);
 
-  const ask = (q: string, imageDataUrl?: string) => {
+  const ask = async (q: string, imageDataUrl?: string) => {
+    if (!(await meter.check("question"))) return;
     const payload = { question: q, imageDataUrl };
     sessionStorage.setItem("askteacha.pending", JSON.stringify(payload));
     navigate({ to: "/answer", search: { id: undefined } });
@@ -78,12 +81,13 @@ function Home() {
     e.preventDefault();
     const q = text.trim();
     if (!q) return;
-    ask(q);
+    void ask(q);
   };
 
   return (
     <div className="min-h-screen bg-background pb-16">
       <AppHeader />
+      <LimitDialog feature={meter.blocked} onClose={meter.clear} />
       <main className="mx-auto w-full max-w-md px-4 py-5">
         <PlanBanner />
         <div className="mb-5">

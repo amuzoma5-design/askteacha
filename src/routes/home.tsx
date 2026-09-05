@@ -128,6 +128,7 @@ function Home() {
         )}
 
 
+        <UsageLeftRow />
         <form
           onSubmit={submitText}
           className="rounded-3xl bg-card p-4 shadow-sm ring-1 ring-border/60"

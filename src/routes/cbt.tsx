@@ -260,6 +260,7 @@ function CbtSimulator() {
                   </>
                 )}
               </button>
+              <UsageLeft feature="cbt" />
             </div>
           </>
         )}

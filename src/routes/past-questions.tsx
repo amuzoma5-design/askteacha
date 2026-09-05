@@ -171,6 +171,7 @@ function PastQuestions() {
               </>
             )}
           </button>
+          <UsageLeft feature="past_questions" />
         </section>
 
         {error && (

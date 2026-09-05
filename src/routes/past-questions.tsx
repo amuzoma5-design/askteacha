@@ -187,7 +187,7 @@ function PastQuestions() {
               {questions.map((q, i) => (
                 <li key={`${i}-${q.slice(0, 20)}`}>
                   <button
-                    onClick={() => solve(q)}
+                    onClick={() => void solve(q)}
                     className="flex w-full items-start gap-3 rounded-2xl bg-card p-3 text-left ring-1 ring-border/60 transition hover:ring-primary/40"
                   >
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">

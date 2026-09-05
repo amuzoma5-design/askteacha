@@ -232,7 +232,7 @@ function Home() {
             {SUGGESTIONS.map((s) => (
               <button
                 key={s}
-                onClick={() => ask(s)}
+                onClick={() => void ask(s)}
                 className="shrink-0 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary hover:text-primary"
               >
                 {s}
@@ -283,7 +283,7 @@ function Home() {
         onClose={() => setVoiceOpen(false)}
         onResult={(t) => {
           setVoiceOpen(false);
-          ask(t);
+          void ask(t);
         }}
       />
       <ImageModal
@@ -291,7 +291,7 @@ function Home() {
         onClose={() => setImageOpen(false)}
         onSolve={(url) => {
           setImageOpen(false);
-          ask("", url);
+          void ask("", url);
         }}
       />
     </div>
